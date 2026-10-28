@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | LLM AI Agents</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .error-container {
+            max-width: 600px;
+        }
+        .error-code {
+            font-size: 10rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1;
+            opacity: 0.8;
+        }
+        .error-title {
+            font-size: 2rem;
+            margin: 1rem 0;
+            color: var(--text-primary);
+        }
+        .error-message {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .agent-silhouette {
+            font-size: 4rem;
+            margin: 2rem 0;
+            color: var(--primary-lighter);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <div class="agent-silhouette">&#129302;</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-message">
+            Oops! The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="error-actions">
+            <a href="./" class="btn btn-primary">Go Home</a>
+            <a href="#lessons" class="btn btn-secondary">Browse Lessons</a>
+            <a href="#concepts" class="btn btn-secondary">Explore Concepts</a>
+        </div>
+    </div>
+    <script>
+        // Auto-redirect to home after 10 seconds
+        setTimeout(() => {
+            window.location.href = './';
+        }, 10000);
+    </script>
+</body>
+</html>

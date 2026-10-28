@@ -109,4 +109,46 @@ Please open an issue for major changes before submitting a PR. When adding lesso
 
 ---
 
+## Interactive Demo Site
+
+An interactive GitHub Pages demo site is available to explore the concepts visually:
+
+- **URL**: `https://D2718281828nis.github.io/LLM_AI_agents/` (once deployed)
+- **Location**: `docs/` folder
+
+### Features of the Demo Site:
+- **Interactive lesson explorer** with all 13 lessons
+- **Concept visualizations** for MCP, HyDE, TAO, RAG, DSPy, and Multi-Agent systems
+- **Live simulations** of tool calls, query generation, and agent loops
+- **Learning path roadmap** to guide your journey
+- **Responsive design** that works on desktop and mobile
+
+### To Deploy the Demo Site:
+
+1. Make sure your GitHub repository is named `LLM_AI_agents`
+2. Go to **Settings** → **Pages** in your GitHub repository
+3. Select **main branch** and **/docs folder** as the source
+4. Click **Save**
+5. The site will be available at `https://<your-username>.github.io/LLM_AI_agents/`
+
+Or run locally:
+```bash
+# From the docs folder
+python -m http.server 8000
+# Then open http://localhost:8000 in your browser
+```
+
+### Demo Site Structure:
+```
+docs/
+├── index.html          # Main interactive demo page
+├── styles.css          # All styling and theming
+├── script.js           # All interactivity and animations
+├── favicon.svg         # Site icon
+├── .nojekyll          # Prevent GitHub Pages from using Jekyll
+└── 404.html           # Custom 404 page
+```
+
+---
+
 Start with Lesson 1 → then jump to Lesson 4 (MCP) or Lesson 13 (HyDE) for advanced techniques.

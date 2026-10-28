@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM AI Agents - Interactive Educational Demo</title>
+    <meta name="description" content="Interactive educational demo for building LLM-powered AI agents. 13 lessons covering MCP, HyDE, TAO, RAG, DSPy, and multi-agent systems.">
+    <meta name="keywords" content="LLM, AI Agents, Machine Learning, MCP, HyDE, TAO, RAG, DSPy, LangChain, Educational">
+    <meta name="author" content="TAUforPython">
+    <meta property="og:title" content="LLM AI Agents - Interactive Educational Demo">
+    <meta property="og:description" content="Interactive educational demo for building LLM-powered AI agents. 13 lessons covering modern AI agent patterns.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-navbutton-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">&#9733;</span>
+                <h1>LLM AI Agents</h1>
+            </div>
+            <p class="subtitle">Interactive Educational Demo - 13 Lessons to Master AI Agents</p>
+            <div class="header-actions">
+                <a href="https://github.com/D2718281828nis/LLM_AI_agents" target="_blank" class="btn btn-secondary btn-sm">
+                    <span>&#128213;</span> View Repo
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <a href="#hero" class="nav-link active">Home</a>
+            <a href="#lessons" class="nav-link">Lessons</a>
+            <a href="#concepts" class="nav-link">Key Concepts</a>
+            <a href="#demos" class="nav-link">Interactive Demos</a>
+            <a href="#roadmap" class="nav-link">Learning Path</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>From Basic Inference to Multi-Agent Systems</h2>
+                <p class="hero-description">
+                    This interactive demo guides you through building LLM-powered AI agents. 
+                    Explore the 13-lesson curriculum, test concepts with live simulations, 
+                    and understand how modern AI agents work.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">13</span>
+                        <span class="stat-label">Lessons</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">Key Concepts</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Demo Simulators</span>
+                    </div>
+                </div>
+                <a href="#lessons" class="btn btn-primary btn-large">
+                    Start Learning &rarr;
+                </a>
+            </div>
+            <div class="hero-visual">
+                <div class="agent-network">
+                    <div class="agent-node agent-center">
+                        <span class="agent-icon">&#9889;</span>
+                        <span>LLM Core</span>
+                    </div>
+                    <div class="agent-node agent-mcp">
+                        <span class="agent-icon">&#9881;</span>
+                        <span>MCP Tools</span>
+                    </div>
+                    <div class="agent-node agent-memory">
+                        <span class="agent-icon">&#9998;</span>
+                        <span>Memory</span>
+                    </div>
+                    <div class="agent-node agent-rag">
+                        <span class="agent-icon">&#9997;</span>
+                        <span>RAG</span>
+                    </div>
+                    <div class="agent-node agent-hyde">
+                        <span class="agent-icon">&#9730;</span>
+                        <span>HyDE</span>
+                    </div>
+                    <div class="agent-node agent-tao">
+                        <span class="agent-icon">&#10024;</span>
+                        <span>TAO</span>
+                    </div>
+                </div>
+                <div class="connection-lines" id="connectionLines"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lessons Section -->
+    <section id="lessons" class="lessons-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#128218;</span>
+                13 Progressive Lessons
+            </h2>
+            <p class="section-description">
+                From basic LLM inference to advanced multi-agent systems and medical applications.
+                Each lesson builds on the previous one.
+            </p>
+
+            <div class="lessons-grid">
+                <!-- Lesson 1 -->
+                <div class="lesson-card" data-lesson="1" data-category="foundations">
+                    <div class="lesson-number">1</div>
+                    <div class="lesson-icon">&#9889;</div>
+                    <h3>LLM Base Inference</h3>
+                    <p>Local & API inference, GPU setup, hallucinations</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-foundation">Foundation</span>
+                        <span class="tag tag-mistral">Mistral</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 2 -->
+                <div class="lesson-card" data-lesson="2" data-category="foundations">
+                    <div class="lesson-number">2</div>
+                    <div class="lesson-icon">&#129726;</div>
+                    <h3>Llama Inference</h3>
+                    <p>Llama model examples, comparison</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-foundation">Foundation</span>
+                        <span class="tag tag-llama">Llama</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 3 -->
+                <div class="lesson-card" data-lesson="3" data-category="agents">
+                    <div class="lesson-number">3</div>
+                    <div class="lesson-icon">&#129302;</div>
+                    <h3>Simple Agent with LangChain</h3>
+                    <p>First agent patterns, LangChain basics</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-agents">Agents</span>
+                        <span class="tag tag-langchain">LangChain</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 3A -->
+                <div class="lesson-card" data-lesson="3a" data-category="tools">
+                    <div class="lesson-number">3A</div>
+                    <div class="lesson-icon">&#9881;</div>
+                    <h3>MCP Emulation</h3>
+                    <p>Model Context Protocol simulation</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-tools">Tools</span>
+                        <span class="tag tag-mcp">MCP</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 4 -->
+                <div class="lesson-card featured" data-lesson="4" data-category="tools">
+                    <div class="lesson-number">4</div>
+                    <div class="lesson-icon">&#9881;</div>
+                    <h3>MCP Tools</h3>
+                    <p>Tool wrapping, function calling, tool loop</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-tools">Tools</span>
+                        <span class="tag tag-mcp">MCP</span>
+                        <span class="tag tag-openai">OpenAI</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                    <span class="featured-badge">Core Concept</span>
+                </div>
+
+                <!-- Lesson 5 -->
+                <div class="lesson-card" data-lesson="5" data-category="agents">
+                    <div class="lesson-number">5</div>
+                    <div class="lesson-icon">&#128737;</div>
+                    <h3>Memory & Guardrails</h3>
+                    <p>Conversation buffers, content safety</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-agents">Agents</span>
+                        <span class="tag tag-memory">Memory</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 6 -->
+                <div class="lesson-card" data-lesson="6" data-category="agents">
+                    <div class="lesson-number">6</div>
+                    <div class="lesson-icon">&#128100;</div>
+                    <h3>Multi-Agent Systems</h3>
+                    <p>Critic + Coordinator pattern</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-agents">Agents</span>
+                        <span class="tag tag-multi">Multi-Agent</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 7 -->
+                <div class="lesson-card" data-lesson="7" data-category="evaluation">
+                    <div class="lesson-number">7</div>
+                    <div class="lesson-icon">&#128202;</div>
+                    <h3>Score Agent Answers</h3>
+                    <p>Automated evaluation metrics</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-evaluation">Evaluation</span>
+                        <span class="tag tag-scoring">Scoring</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 8 -->
+                <div class="lesson-card" data-lesson="8" data-category="retrieval">
+                    <div class="lesson-number">8</div>
+                    <div class="lesson-icon">&#128196;</div>
+                    <h3>RAG Techniques</h3>
+                    <p>Naive, advanced, query transformations</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-retrieval">Retrieval</span>
+                        <span class="tag tag-rag">RAG</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 9 -->
+                <div class="lesson-card" data-lesson="9" data-category="frameworks">
+                    <div class="lesson-number">9</div>
+                    <div class="lesson-icon">&#128736;</div>
+                    <h3>DSPy Components</h3>
+                    <p>Programmatic LM pipelines</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-frameworks">Frameworks</span>
+                        <span class="tag tag-dspy">DSPy</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 10 -->
+                <div class="lesson-card featured" data-lesson="10" data-category="patterns">
+                    <div class="lesson-number">10</div>
+                    <div class="lesson-icon">&#10024;</div>
+                    <h3>TAO Techniques</h3>
+                    <p>Think-Act-Observe (ReAct-like) loops</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-patterns">Patterns</span>
+                        <span class="tag tag-tao">TAO</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                    <span class="featured-badge">Core Concept</span>
+                </div>
+
+                <!-- Lesson 11 -->
+                <div class="lesson-card" data-lesson="11" data-category="applications">
+                    <div class="lesson-number">11</div>
+                    <div class="lesson-icon">&#128722;</div>
+                    <h3>Medical Claims Verdict</h3>
+                    <p>Agent graph for medical claims analysis</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-applications">Applications</span>
+                        <span class="tag tag-medical">Medical</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 12 -->
+                <div class="lesson-card" data-lesson="12" data-category="applications">
+                    <div class="lesson-number">12</div>
+                    <div class="lesson-icon">&#128221;</div>
+                    <h3>AI Fact-Checking</h3>
+                    <p>Digital clinical requirements verification</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-applications">Applications</span>
+                        <span class="tag tag-medical">Medical</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                </div>
+
+                <!-- Lesson 13 -->
+                <div class="lesson-card featured" data-lesson="13" data-category="retrieval">
+                    <div class="lesson-number">13</div>
+                    <div class="lesson-icon">&#127996;</div>
+                    <h3>HyDE for Clinical Guidelines</h3>
+                    <p>Hypothetical Document Embeddings with Russian guidelines</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-retrieval">Retrieval</span>
+                        <span class="tag tag-hyde">HyDE</span>
+                        <span class="tag tag-medical">Medical</span>
+                    </div>
+                    <div class="lesson-progress">
+                        <span class="progress-bar"></span>
+                    </div>
+                    <span class="featured-badge">Core Concept</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Concepts Section -->
+    <section id="concepts" class="concepts-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#128200;</span>
+                Key Concepts Explained
+            </h2>
+            <p class="section-description">
+                Understand the fundamental building blocks of modern AI agent systems.
+            </p>
+
+            <div class="concepts-grid">
+                <!-- MCP Concept -->
+                <div class="concept-card" id="concept-mcp">
+                    <div class="concept-header">
+                        <h3>Model Context Protocol (MCP)</h3>
+                        <span class="concept-icon">&#9881;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Standardized tool and resource descriptions that enable LLMs to safely call external capabilities. MCP provides a consistent interface for tool discovery, execution, and result handling.</p>
+                        <div class="concept-visual mcp-visual" id="mcpVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateMCP()">
+                            Show MCP Flow &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- HyDE Concept -->
+                <div class="concept-card" id="concept-hyde">
+                    <div class="concept-header">
+                        <h3>HyDE (Hypothetical Document Embeddings)</h3>
+                        <span class="concept-icon">&#127996;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Generate a hypothetical answer to form better retrieval queries. Instead of searching with the user's query directly, HyDE creates a synthetic document that represents what the ideal answer would look like, then uses its embeddings for retrieval.</p>
+                        <div class="concept-visual hyde-visual" id="hydeVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateHyDE()">
+                            Show HyDE Process &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAO Concept -->
+                <div class="concept-card" id="concept-tao">
+                    <div class="concept-header">
+                        <h3>TAO: Think-Act-Observe</h3>
+                        <span class="concept-icon">&#10024;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>A ReAct-like loop where the agent alternates between reasoning (Thinking), executing actions (Acting), and receiving feedback (Observing). This enables autonomous problem-solving through iterative exploration.</p>
+                        <div class="concept-visual tao-visual" id="taoVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateTAO()">
+                            Show TAO Loop &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RAG Concept -->
+                <div class="concept-card" id="concept-rag">
+                    <div class="concept-header">
+                        <h3>Retrieval-Augmented Generation (RAG)</h3>
+                        <span class="concept-icon">&#128196;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Enhance LLM responses by retrieving relevant documents from a knowledge base. RAG combines the power of large language models with external, up-to-date information sources.</p>
+                        <div class="concept-visual rag-visual" id="ragVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateRAG()">
+                            Show RAG Pipeline &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DSPy Concept -->
+                <div class="concept-card" id="concept-dspy">
+                    <div class="concept-header">
+                        <h3>DSPy (Diffusion for Program Synthesis)</h3>
+                        <span class="concept-icon">&#128736;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>A framework for programming with foundation models. DSPy enables you to define pipelines where LLMs can generate and optimize their own code to solve complex tasks programmatically.</p>
+                        <div class="concept-visual dspy-visual" id="dspyVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateDSPy()">
+                            Show DSPy Flow &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Multi-Agent Concept -->
+                <div class="concept-card" id="concept-multiagent">
+                    <div class="concept-header">
+                        <h3>Multi-Agent Systems</h3>
+                        <span class="concept-icon">&#128100;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Coordinate multiple specialized agents to solve complex problems. Patterns include Critic-Agent (quality control), Coordinator-Agent (task distribution), and ensemble approaches.</p>
+                        <div class="concept-visual multiagent-visual" id="multiagentVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateMultiAgent()">
+                            Show Agent Interaction &rarr;
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demos Section -->
+    <section id="demos" class="demos-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#127915;</span>
+                Interactive Demos & Simulators
+            </h2>
+            <p class="section-description">
+                Try out simplified simulations of the key concepts. These are browser-based demos that illustrate how the systems work.
+            </p>
+
+            <div class="demos-grid">
+                <!-- MCP Tool Call Simulator -->
+                <div class="demo-card" id="demo-mcp">
+                    <div class="demo-header">
+                        <h3>MCP Tool Call Simulator</h3>
+                        <span class="demo-icon">&#9881;</span>
+                    </div>
+                    <div class="demo-body">
+                        <p>Simulate how an LLM discovers and calls tools using the Model Context Protocol.</p>
+                        <div class="demo-interface">
+                            <div class="demo-input">
+                                <label for="mcpQuery">Your Query:</label>
+                                <input type="text" id="mcpQuery" placeholder="e.g., What's the weather in Paris?">
+                            </div>
+                            <div class="demo-tools">
+                                <label>Available Tools:</label>
+                                <div class="tool-list" id="mcpTools">
+                                    <span class="tool-chip">weather_api</span>
+                                    <span class="tool-chip">search_web</span>
+                                    <span class="tool-chip">calculate</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="runMCPDemo()">
+                                Simulate Tool Selection
+                            </button>
+                            <div class="demo-output" id="mcpOutput">
+                                <p class="output-placeholder">Tool call simulation will appear here...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HyDE Query Simulator -->
+                <div class="demo-card" id="demo-hyde">
+                    <div class="demo-header">
+                        <h3>HyDE Query Generation</h3>
+                        <span class="demo-icon">&#127996;</span>
+                    </div>
+                    <div class="demo-body">
+                        <p>See how HyDE generates hypothetical documents to improve retrieval.</p>
+                        <div class="demo-interface">
+                            <div class="demo-input">
+                                <label for="hydeQuery">User Query:</label>
+                                <input type="text" id="hydeQuery" placeholder="e.g., treatment for type 2 diabetes">
+                            </div>
+                            <button class="btn btn-primary" onclick="runHyDEDemo()">
+                                Generate HyDE Document
+                            </button>
+                            <div class="demo-output" id="hydeOutput">
+                                <p class="output-placeholder">Hypothetical document will appear here...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAO Agent Loop Simulator -->
+                <div class="demo-card" id="demo-tao">
+                    <div class="demo-header">
+                        <h3>TAO Agent Loop Simulator</h3>
+                        <span class="demo-icon">&#10024;</span>
+                    </div>
+                    <div class="demo-body">
+                        <p>Watch an agent iterate through Think-Act-Observe cycles to solve a problem.</p>
+                        <div class="demo-interface">
+                            <div class="demo-input">
+                                <label for="taoGoal">Agent Goal:</label>
+                                <input type="text" id="taoGoal" placeholder="e.g., Find the capital of France">
+                            </div>
+                            <button class="btn btn-primary" onclick="runTAODemo()">
+                                Start TAO Loop
+                            </button>
+                            <div class="demo-output tao-loop" id="taoOutput">
+                                <p class="output-placeholder">TAO iterations will appear here...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Path / Roadmap Section -->
+    <section id="roadmap" class="roadmap-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#128640;</span>
+                Learning Path & Roadmap
+            </h2>
+            <p class="section-description">
+                Follow this roadmap to master AI agents, from fundamentals to advanced applications.
+            </p>
+
+            <div class="roadmap-container">
+                <div class="roadmap-level">
+                    <div class="level-header">
+                        <span class="level-number">1</span>
+                        <h3>Foundations</h3>
+                    </div>
+                    <div class="level-content">
+                        <p>Learn the basics of LLM inference and API usage.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Lesson 1: LLM Base Inference</li>
+                            <li><span class="check"></span> Lesson 2: Llama Inference</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-arrow">&rarr;</div>
+
+                <div class="roadmap-level">
+                    <div class="level-header">
+                        <span class="level-number">2</span>
+                        <h3>Agents & Tools</h3>
+                    </div>
+                    <div class="level-content">
+                        <p>Build simple agents and integrate tools.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Lesson 3: Simple Agent with LangChain</li>
+                            <li><span class="check"></span> Lesson 3A: MCP Emulation</li>
+                            <li><span class="check"></span> Lesson 4: MCP Tools</li>
+                            <li><span class="check"></span> Lesson 5: Memory & Guardrails</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-arrow">&rarr;</div>
+
+                <div class="roadmap-level">
+                    <div class="level-header">
+                        <span class="level-number">3</span>
+                        <h3>Advanced Patterns</h3>
+                    </div>
+                    <div class="level-content">
+                        <p>Explore multi-agent systems and evaluation.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Lesson 6: Multi-Agent Systems</li>
+                            <li><span class="check"></span> Lesson 7: Score Agent Answers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-arrow">&rarr;</div>
+
+                <div class="roadmap-level">
+                    <div class="level-header">
+                        <span class="level-number">4</span>
+                        <h3>Retrieval & Frameworks</h3>
+                    </div>
+                    <div class="level-content">
+                        <p>Learn retrieval techniques and programmatic frameworks.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Lesson 8: RAG Techniques</li>
+                            <li><span class="check"></span> Lesson 9: DSPy Components</li>
+                            <li><span class="check"></span> Lesson 10: TAO Techniques</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-arrow">&rarr;</div>
+
+                <div class="roadmap-level highlight">
+                    <div class="level-header">
+                        <span class="level-number">5</span>
+                        <h3>Real-World Applications</h3>
+                    </div>
+                    <div class="level-content">
+                        <p>Apply your knowledge to medical and clinical domains.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Lesson 11: Medical Claims Verdict</li>
+                            <li><span class="check"></span> Lesson 12: AI Fact-Checking</li>
+                            <li><span class="check"></span> Lesson 13: HyDE Clinical Guidelines</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>LLM AI Agents</h4>
+                    <p>Educational demo for building LLM-powered AI agents.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#lessons">Lessons</a></li>
+                        <li><a href="#concepts">Concepts</a></li>
+                        <li><a href="#demos">Demos</a></li>
+                        <li><a href="#roadmap">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Repository</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/D2718281828nis/LLM_AI_agents" target="_blank">GitHub Repo</a></li>
+                        <li><a href="README.md">README</a></li>
+                        <li><a href="LICENSE">License (MIT)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright &copy; 2026 TAUforPython. All rights reserved.</p>
+                <p class="footer-note">This is an educational demo site. All simulations are simplified representations.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" onclick="scrollToTop()">
+        &uarr; Top
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "LLM AI Agents - Interactive Educational Demo",
+  "short_name": "LLM AI Agents",
+  "description": "Interactive educational demo for building LLM-powered AI agents. 13 lessons covering MCP, HyDE, TAO, RAG, DSPy, and multi-agent systems.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
