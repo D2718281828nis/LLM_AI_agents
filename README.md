@@ -5,6 +5,9 @@
 
 A compact, hands-on course and reference for building LLM-powered AI agents — from single-step inference to multi-agent coordination, tool integration (MCP), and retrieval-augmented pipelines (HyDE).
 
+
+[intereactive live demo][https://d2718281828nis.github.io/LLM_AI_agents/explainer/ru/]
+
 This repository is organized as executable Jupyter notebooks that demonstrate patterns, example code, and experiments. Notebooks target both local inference (Mistral / local LLMs) and cloud APIs (Mistral cloud, OpenAI).
 
 ## What you'll learn
