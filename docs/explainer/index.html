@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Agents Explainer</title>
+  <meta name="description" content="An interactive, computed-in-your-browser explainer of LLM agents: sampling, quantization, tools and MCP, Think-Act-Observe loops, memory, guardrails, RAG and HyDE, DSPy, multi-agent critics, LLM-as-judge and knowledge-graph fact-checking.">
+  <meta property="og:title" content="LLM Agents Explainer — from one token to a team of agents">
+  <meta property="og:description" content="Eight chapters, twelve live figures. Every number on the page is computed in your browser.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="explainer.css">
+</head>
+<body>
+  <noscript><div class="noscript-warn">The figures on this page are computed with JavaScript. Enable it to use them.</div></noscript>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top">Agents Explainer</a>
+      <nav class="toc" aria-label="Chapters">
+        <a href="#s1">1 Tokens</a>
+        <a href="#s2">2 Tools</a>
+        <a href="#s3">3 TAO</a>
+        <a href="#s4">4 Memory</a>
+        <a href="#s5">5 RAG</a>
+        <a href="#s6">6 DSPy</a>
+        <a href="#s7">7 Teams</a>
+        <a href="#s8">8 Graphs</a>
+        <a href="#lessons">Lessons</a>
+      </nav>
+      <a class="back-link" href="../">← Course home</a>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme">☾</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero prose">
+      <div class="kicker">Interactive companion to the LLM_AI_agents course</div>
+      <h1>From one token to a team of agents</h1>
+      <p class="lede">An agent is a language model in a loop: it predicts text, calls tools, reads what comes back, and decides
+        what to do next. This page takes that loop apart, piece by piece, with figures you can poke.</p>
+      <p class="lede">Nothing here is a canned animation. Every probability, similarity, accuracy and verdict is computed in your browser
+        from the data shown.</p>
+    </section>
+
+    <div class="index-grid">
+      <a class="index-card" href="#s1"><div class="n">1</div><h3>Next-token sampling</h3><p>Temperature, top-k, top-p, why models hallucinate, and quantization.</p><div class="lessons">Lessons 1–2</div></a>
+      <a class="index-card" href="#s2"><div class="n">2</div><h3>Tools and MCP</h3><p>How a model picks a tool, fills arguments, and talks JSON-RPC to a server.</p><div class="lessons">Lessons 3, 3A, 4</div></a>
+      <a class="index-card" href="#s3"><div class="n">3</div><h3>Think → Act → Observe</h3><p>Step a real agent loop, inject failures, and watch the token bill grow.</p><div class="lessons">Lessons 6, 10</div></a>
+      <a class="index-card" href="#s4"><div class="n">4</div><h3>Memory and guardrails</h3><p>What survives the context window, and what must never enter it.</p><div class="lessons">Lesson 5</div></a>
+      <a class="index-card" href="#s5"><div class="n">5</div><h3>RAG and HyDE</h3><p>Embeddings, cosine search, query decomposition and hypothetical documents.</p><div class="lessons">Lessons 8, 13</div></a>
+      <a class="index-card" href="#s6"><div class="n">6</div><h3>DSPy: compile, don't hand-tune</h3><p>Search for few-shot demos on a dev set, then face the test set.</p><div class="lessons">Lesson 9</div></a>
+      <a class="index-card" href="#s7"><div class="n">7</div><h3>Teams of agents, and grading them</h3><p>Critic loops, LLM-as-judge calibration, and rubric trade-offs.</p><div class="lessons">Lessons 6, 7</div></a>
+      <a class="index-card" href="#s8"><div class="n">8</div><h3>Fact-checking with graphs</h3><p>Claims as triples, verdicts from edges, and message passing.</p><div class="lessons">Lessons 11–13</div></a>
+    </div>
+
+    <div class="prose tips" style="margin-top:20px">
+      <b>How to read the figures</b>
+      <ul>
+        <li>Hover any bar, dot, edge or row for exact values.</li>
+        <li>Every control recomputes immediately. Presets are chips; free-text inputs accept anything you type.</li>
+        <li>The medical content is simplified for teaching. It is not clinical advice.</li>
+      </ul>
+    </div>
+
+    <!-- ============ 1 ============ -->
+    <section class="chapter" id="s1">
+      <div class="prose">
+        <h2><span class="num">1</span>The model is a next-token sampler</h2>
+        <p class="from">Lessons 1–2 · <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-1_LLM_base_inference.ipynb">base inference</a>, <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-2_Llama_example_inference.ipynb">llama.cpp &amp; quantization</a></p>
+
+        <h3><span class="sub">1.1</span>From scores to probabilities</h3>
+        <p>For every position, the network outputs one score — a <em>logit</em> <var>z</var> — per vocabulary token. Softmax turns them into
+          probabilities. A <strong>temperature</strong> <var>T</var> divides the logits first:</p>
+        <div class="math"><var>p</var><sub><var>i</var></sub> = exp(<var>z</var><sub><var>i</var></sub> / <var>T</var>) / Σ<sub><var>j</var></sub> exp(<var>z</var><sub><var>j</var></sub> / <var>T</var>)</div>
+        <p>Low <var>T</var> sharpens the distribution toward the top token (greedy decoding as <var>T</var> → 0). High <var>T</var> flattens it, so unlikely
+          tokens get sampled more often. Two filters then cut the tail: <strong>top-k</strong> keeps the <var>k</var> most likely tokens, and
+          <strong>top-p</strong> keeps the smallest set whose probabilities add up to <var>p</var>. The survivors are renormalised.</p>
+
+        <h3><span class="sub">1.2</span>Live: shape the distribution</h3>
+        <p>The logits below are hand-set for three medical prompts. Each candidate token is marked as clinically plausible or wrong.
+          Push the temperature up and watch probability mass leak into the wrong tokens. Then sample 100 times to see how often they come out.</p>
+      </div>
+      <div class="fig" data-fig="sampling"></div>
+      <p class="fig-caption">Grey ghost bars are the probabilities before filtering. Entropy measures how spread out the choice is: 2<sup>H</sup> is the "effective number" of tokens being chosen between.</p>
+
+      <div class="prose">
+        <h3><span class="sub">1.3</span>Why fluent models say wrong things</h3>
+        <p>Nothing in sampling knows what is true. A wrong token with 3% probability will appear roughly 3 times in 100 completions. Because the
+          model then conditions on its own output, one bad token can steer the whole rest of the answer. This is the mechanical root of many
+          hallucinations: it is a <em>probability</em> problem before it is a knowledge problem. For factual medical answers, use low
+          temperature and a tight top-p, and — better — ground the answer in retrieved sources (§5) or tool results (§2).</p>
+        <div class="callout">Lowering <var>T</var> doesn't make the model <em>know</em> more. It only makes it repeat its top guess more consistently. If the top guess is wrong, a confident wrong answer is the result.</div>
+
+        <h3><span class="sub">1.4</span>Quantization: the same model in a quarter of the memory</h3>
+        <p>A 7-billion-parameter model in 16-bit floats needs 14 GB just for weights. llama.cpp-style quantization stores each weight as a small
+          integer plus one shared scale per <em>block</em> of weights:</p>
+        <div class="math"><var>q</var> = round(<var>w</var> / <var>s</var>), &nbsp; <var>s</var> = max|<var>w</var><sub>block</sub>| / (2<sup><var>b</var>−1</sup> − 1), &nbsp; <var>ŵ</var> = <var>q</var> · <var>s</var></div>
+        <p>Smaller blocks adapt the scale to local outliers, so they lose less precision but spend more bits on scales. The weights below are
+          synthetic but realistic: mostly tiny values plus 2% outliers, which is exactly what makes whole-tensor scaling hurt.</p>
+      </div>
+      <div class="fig" data-fig="quant"></div>
+      <p class="fig-caption">Purple lines are the representable levels within each block. Each extra bit adds about 6 dB of SNR. With per-tensor scaling, one outlier stretches the grid for everyone.</p>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="chapter" id="s2">
+      <div class="prose">
+        <h2><span class="num">2</span>Tools: letting the model do things</h2>
+        <p class="from">Lessons 3, 3A, 4 · <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-3_simple_agent_Langchain.ipynb">LangChain agent</a>, <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-3A_MCP_example_emulation.ipynb">MCP emulation</a>, <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-4_MCP_tools.ipynb">MCP tools</a></p>
+
+        <h3><span class="sub">2.1</span>A tool is a name, a description and a schema</h3>
+        <p>A model cannot look anything up or run any code. What it <em>can</em> do is emit structured text that says "call
+          <code>check_interaction</code> with <code>{"drug_a": "warfarin", "drug_b": "ibuprofen"}</code>". Your code runs the function and feeds
+          the result back. The model decides which tool to call using only the tool's <strong>description</strong> and its <strong>JSON Schema</strong>.
+          A vague description is a bug.</p>
+        <p>Below, four tools sit on top of a small drug and appointment database. The router scores each tool on two things: keyword
+          evidence in the message, and whether the required arguments can be filled. It also scores an "answer directly" option. Type your own message.</p>
+      </div>
+      <div class="fig" data-fig="tools"></div>
+      <p class="fig-caption">When a required argument is missing, the right move is a clarifying question, not a guess. Try "Is it safe to take aspirin together?"</p>
+
+      <div class="prose">
+        <h3><span class="sub">2.2</span>MCP: one protocol for every tool server</h3>
+        <p>The Model Context Protocol standardises the plumbing. A tool server describes itself once. Any MCP-capable host — an IDE, a chat
+          app, an agent framework — can then discover and call its tools over JSON-RPC 2.0. You don't write one integration per app. The diagram
+          replays the exchange for the message you typed above. Click any arrow to inspect the actual message.</p>
+      </div>
+      <div class="fig" data-fig="mcp"></div>
+      <p class="fig-caption">Note step 6: the LLM never executes anything. It only proposes a call. Which calls are permitted is the host's decision — that's where you put permissions and audit logs.</p>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="chapter" id="s3">
+      <div class="prose">
+        <h2><span class="num">3</span>Think → Act → Observe</h2>
+        <p class="from">Lessons 6, 10 · <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-10_TAO_think_act_observe_techniques.ipynb">TAO techniques</a></p>
+
+        <h3><span class="sub">3.1</span>The loop</h3>
+        <p>One tool call answers one question. Real tasks need several, and each step depends on what the last one returned. The TAO
+          (ReAct-style) pattern makes that explicit. The model writes a short <strong>thought</strong>, chooses an <strong>action</strong>,
+          receives an <strong>observation</strong>, and repeats until it can answer. Everything it has done so far stays in the prompt as a
+          scratchpad.</p>
+
+        <h3><span class="sub">3.2</span>Live: step through an agent</h3>
+        <p>Each task needs two tool calls against the same database as §2. Turn on the failing tool to see a retry. Lower the iteration cap
+          to see the agent stopped before finishing — a guard every production agent needs.</p>
+      </div>
+      <div class="fig" data-fig="tao"></div>
+      <p class="fig-caption">The bar chart is the prompt size of each LLM call. The scratchpad is re-sent every iteration, so total tokens processed grow roughly quadratically with the number of steps.</p>
+
+      <div class="prose">
+        <div class="callout warn"><b>Two failure modes to design for.</b> Without an iteration cap, a confused agent can loop until your budget runs out.
+          With a cap and no fallback, it silently returns nothing. Always do both: cap the loop, and on hitting the cap, return partial results with an explanation.</div>
+      </div>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section class="chapter" id="s4">
+      <div class="prose">
+        <h2><span class="num">4</span>Memory and guardrails</h2>
+        <p class="from">Lesson 5 · <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-5_Memory_and_Guardrails_Agents.ipynb">memory &amp; guardrails</a></p>
+
+        <h3><span class="sub">4.1</span>The context window <em>is</em> the memory</h3>
+        <p>A chat model is stateless. Between calls it remembers nothing. "Memory" means choosing which past messages to paste back into a
+          prompt of fixed size. Each strategy is a different answer to "what do we drop?":</p>
+        <ul>
+          <li><b>Full buffer</b>: send everything. It's simple, until the history no longer fits.</li>
+          <li><b>Sliding window</b>: keep the last <var>N</var> messages. It's cheap and predictable, and it forgets old facts.</li>
+          <li><b>Token budget</b>: keep the newest messages that fit. It uses space better, with the same forgetting.</li>
+          <li><b>Summary + recent</b>: compress older turns into a summary that keeps key facts. It costs an extra LLM call to write the summary.</li>
+        </ul>
+
+        <h3><span class="sub">4.2</span>Live: what does the model still know?</h3>
+        <p>A 14-message intake conversation. The ★ messages hold key facts: a penicillin allergy, warfarin, and a blood-pressure reading.
+          Choose a strategy and a window size, then ask the final question.</p>
+      </div>
+      <div class="fig" data-fig="memory"></div>
+      <p class="fig-caption">The dangerous case is the quiet one: the allergy was mentioned, then dropped, and the model confidently suggests amoxicillin. Try token budget at 220 tokens, then switch to summary + recent.</p>
+
+      <div class="prose">
+        <h3><span class="sub">4.3</span>Guardrails: check before you send</h3>
+        <p>Whatever enters the prompt may be logged, cached or sent to a third-party API. An <strong>input guardrail</strong> runs before the model.
+          It redacts personal data, and it routes emergencies away from the model to a human. Regular expressions catch structured identifiers,
+          and checksums cut false positives: the card number below must pass the Luhn check, and the SNILS its control sum. Names are the
+          classic gap. They need an NER model, because regex can't tell "Anna Petrova" from "Aspirin Protect".</p>
+      </div>
+      <div class="fig" data-fig="guard"></div>
+      <p class="fig-caption">Change one digit of the card or SNILS number: it fails the checksum and is no longer treated as an identifier. Remove "chest pain" and routing changes.</p>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section class="chapter" id="s5">
+      <div class="prose">
+        <h2><span class="num">5</span>Retrieval: RAG and HyDE</h2>
+        <p class="from">Lessons 8, 13 · <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-8_Different_RAG_techniques.ipynb">RAG techniques</a>, <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-13_HyDE_Russian_Clinical_Guidelines.ipynb">HyDE for clinical guidelines</a></p>
+
+        <h3><span class="sub">5.1</span>Search by meaning, measured by angle</h3>
+        <p>Retrieval-augmented generation answers from documents instead of from memory. Every document is turned into a vector, and so is
+          the question. The documents whose vectors point in the most similar direction go into the prompt:</p>
+        <div class="math">cos(<var>q</var>, <var>d</var>) = <var>q</var> · <var>d</var> / (‖<var>q</var>‖ ‖<var>d</var>‖)</div>
+        <p>Here the vectors are TF-IDF, so it runs offline. Each dimension is a word, weighted by how rare it is in the corpus. Neural embeddings
+          (as in lesson 13) also match synonyms, but the failure you are about to see — patients and guidelines using different words — hurts
+          both kinds, only less dramatically for neural ones.</p>
+
+        <h3><span class="sub">5.2</span>HyDE: search with a fake answer</h3>
+        <p>A patient asks about "blood thinners and painkillers". The guideline says "anticoagulation" and "NSAID". Few words overlap, so retrieval
+          misses. <strong>Hypothetical Document Embeddings</strong> asks the LLM to <em>write an answer first</em>, possibly wrong in its details,
+          and searches with that text. The fake answer is written in guideline vocabulary, so it lands near the real guideline. Only the real
+          documents reach the final prompt; the hypothetical one is discarded.</p>
+        <div class="math"><var>v</var><sub>HyDE</sub> = normalise( (1 − α) · <var>v</var><sub>query</sub> + α · <var>v</var><sub>hypothetical doc</sub> )</div>
+        <p>Pick a preset query to score against hand-labelled relevant documents (✓). The last preset is a two-part question: turn on
+          <em>decompose</em> to retrieve for each part separately.</p>
+      </div>
+      <div class="fig" data-fig="rag"></div>
+      <p class="fig-caption">To run offline, the hypothetical passage here comes from a lookup of concept sentences instead of a live LLM. Left: a 2-D PCA map — it keeps only a small share of the variance, so read distances loosely. Right: the faithful view, each document's similarity to the plain query vs. to the HyDE vector. Points above the diagonal are pulled in by HyDE.</p>
+
+      <div class="prose">
+        <h3><span class="sub">5.3</span>Measure retrieval separately from generation</h3>
+        <p><b>Recall@k</b> asks: of the documents that should have been found, what share made the top <var>k</var>? <b>MRR</b> (mean reciprocal rank)
+          rewards putting the first relevant document near the top. If the right guideline never reaches the prompt, no amount of prompt
+          engineering fixes the answer. So measure retrieval on its own, before blaming the LLM. Notice too that HyDE is not free: for
+          "my pressure pill makes me cough", plain search already works, and HyDE adds an LLM call for no gain.</p>
+      </div>
+    </section>
+
+    <!-- ============ 6 ============ -->
+    <section class="chapter" id="s6">
+      <div class="prose">
+        <h2><span class="num">6</span>DSPy: compile the prompt, don't hand-tune it</h2>
+        <p class="from">Lesson 9 · <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-9_DSPy_components.ipynb">DSPy components</a></p>
+
+        <h3><span class="sub">6.1</span>Signatures, modules, optimizers</h3>
+        <p>DSPy (<em>Declarative Self-improving Python</em>) replaces hand-written prompt strings with three parts:</p>
+        <ul>
+          <li>a <b>signature</b> that states inputs and outputs — <code>patient_message -&gt; intent</code>;</li>
+          <li>a <b>module</b> that decides how to call the LM — <code>dspy.Predict</code>, <code>dspy.ChainOfThought</code>, ...;</li>
+          <li>an <b>optimizer</b> that, given a metric and some labelled examples, chooses instructions and few-shot demos for you.</li>
+        </ul>
+        <p>"Compiling" means running that optimizer. The simplest version, random search over demo sets, is what the figure does. It tries
+          candidate prompts, scores each on a <strong>dev set</strong>, and keeps the best.</p>
+
+        <h3><span class="sub">6.2</span>Live: compile an intent classifier</h3>
+        <p>Five intents for a clinic assistant: book, cancel, refill, symptom, results. A pool of 25 labelled messages supplies the demos, 20 more
+          form the dev set, and 15 are held out as the test set. The stand-in "LM" classifies by similarity to each intent's description plus
+          the demos shown for it. It is crude, but it reacts to demos the way a real model does: good examples teach it vocabulary.</p>
+      </div>
+      <div class="fig" data-fig="dspy"></div>
+      <p class="fig-caption">The black tick on the bottom bar is the winner's dev score. The gap between it and the blue test bar is the optimiser overfitting a 20-example dev set. Try a few data splits.</p>
+
+      <div class="prose">
+        <h3><span class="sub">6.3</span>What to take away</h3>
+        <p>Demos matter more than wording. Picking them by measurement beats picking them by intuition. And the score you optimised is
+          optimistic by construction. Keep a test set the optimizer never sees, and the larger the search, the larger the dev set you need.</p>
+      </div>
+    </section>
+
+    <!-- ============ 7 ============ -->
+    <section class="chapter" id="s7">
+      <div class="prose">
+        <h2><span class="num">7</span>Teams of agents, and how to grade them</h2>
+        <p class="from">Lessons 6, 7 · <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-6_MultyAgent_Critical_and_Coordinator.ipynb">multi-agent critic &amp; coordinator</a>, <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-7_Score_Agent_Answer.ipynb">scoring agent answers</a></p>
+
+        <h3><span class="sub">7.1</span>Coordinator, specialists, critic</h3>
+        <p>A <b>coordinator</b> splits the request and routes the parts to <b>specialists</b>: a pharmacist agent with drug tools, a scheduler with
+          the calendar, a triage agent with red-flag rules. A <b>critic</b> then grades the merged draft against a rubric and sends it back
+          until every criterion clears the bar, or a round cap is hit. The quality dynamics below are <em>simulated</em>. What's real is the
+          control logic, and the trade-off it creates: each round costs a critique plus a full revision.</p>
+      </div>
+      <div class="fig" data-fig="critic"></div>
+      <p class="fig-caption">Raise the threshold to 0.9: rounds and tokens climb, and sometimes a fix to one criterion knocks another down — a real effect of LLM revisions. Set max rounds to 0 to see the single-agent baseline.</p>
+
+      <div class="prose">
+        <h3><span class="sub">7.2</span>LLM-as-judge: trust, but calibrate</h3>
+        <p>Grading thousands of answers by hand is impossible, so we ask an LLM to score them. Before using a judge, measure it against a sample
+          of human labels. Then pick the pass threshold that maximises agreement. Report <b>Cohen's κ</b>, not raw accuracy: if 55% of answers
+          pass, a judge that always says "pass" already agrees 55% of the time.</p>
+        <div class="math">κ = (<var>p</var><sub>o</sub> − <var>p</var><sub>e</sub>) / (1 − <var>p</var><sub>e</sub>)</div>
+        <p>Here <var>p</var><sub>o</sub> is the observed agreement and <var>p</var><sub>e</sub> the agreement expected by chance. Then switch on the verbosity bias.
+          LLM judges are known to favour longer answers, and you will see failing-but-long answers sneak over the line.</p>
+      </div>
+      <div class="fig" data-fig="judge"></div>
+      <p class="fig-caption">Simulated labels and scores (seeded). Hollow dots are disagreements; ringed dots are long answers.</p>
+
+      <div class="prose">
+        <h3><span class="sub">7.3</span>"Best agent" is a weighting decision</h3>
+        <p>Lesson 6 benchmarks single, ReAct and multi-agent designs. No design wins on every axis: the critic loop is the most accurate and the
+          safest, and also the slowest and most expensive. Change the weights and watch the ranking flip. Writing the weights down
+          <em>before</em> you see the results is what keeps an evaluation honest.</p>
+      </div>
+      <div class="fig" data-fig="rubric"></div>
+      <p class="fig-caption">Per-criterion scores are illustrative (normalised 0–1; higher cost &amp; latency score = cheaper and faster).</p>
+    </section>
+
+    <!-- ============ 8 ============ -->
+    <section class="chapter" id="s8">
+      <div class="prose">
+        <h2><span class="num">8</span>Fact-checking with a knowledge graph</h2>
+        <p class="from">Lessons 11–13 · <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-11_LLM_Agent_Graph_Verdict_Medical_Claims.ipynb">graph verdicts</a>, <a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-12_AI_agent_fact_cheking_Digital_Clinical_Requirements.ipynb">clinical requirements</a></p>
+
+        <h3><span class="sub">8.1</span>Claims are triples</h3>
+        <p>"Lisinopril treats dry cough" becomes <code>(lisinopril, treats, dry cough)</code>. An LLM is good at extracting this structure from
+          free text. A knowledge graph is good at checking it, because every edge can be traced to a source. Three outcomes matter:</p>
+        <ul>
+          <li><b>Supported</b>: the same edge exists.</li>
+          <li><b>Refuted</b>: a contradicting edge exists (<em>causes</em> versus <em>treats</em>, <em>contraindicated</em> versus <em>safe</em>).</li>
+          <li><b>Not enough info</b>: no edge. This is <em>not</em> "false". A graph only knows what was put in it.</li>
+        </ul>
+
+        <h3><span class="sub">8.2</span>Live: verdicts and message passing</h3>
+        <p>The fill and ring colours show <em>message passing</em>: each round, every node averages its state with its neighbours'. After <var>k</var>
+          rounds, a node "knows" about its <var>k</var>-hop neighbourhood. That is what the graph neural network in lesson 11 does — with
+          learned weights per relation, which is what lets it tell "treats" from "causes".</p>
+      </div>
+      <div class="fig" data-fig="graph"></div>
+      <p class="fig-caption">Try "paracetamol causes bleeding": a 3-hop path exists (paracetamol → pain ← ibuprofen → bleeding), and the subject and object representations grow similar with <var>k</var>. Proximity is association, not evidence — a classic trap for naive graph features.</p>
+    </section>
+
+    <!-- ============ lessons ============ -->
+    <section class="chapter" id="lessons">
+      <div class="prose">
+        <h2>Lesson map</h2>
+        <p>Every chapter maps to notebooks in the repository. Open them in Colab or Jupyter to run the real thing, with real models.</p>
+        <div style="overflow-x:auto">
+        <table class="tbl lesson-table">
+          <thead><tr><th>Lesson</th><th>Notebook</th><th>Chapter</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-1_LLM_base_inference.ipynb">LLM base inference</a></td><td>§1</td></tr>
+            <tr><td>2</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-2_Llama_example_inference.ipynb">Llama inference &amp; quantization</a></td><td>§1.4</td></tr>
+            <tr><td>3</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-3_simple_agent_Langchain.ipynb">Simple agent with LangChain</a></td><td>§2</td></tr>
+            <tr><td>3A</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-3A_MCP_example_emulation.ipynb">MCP emulation</a></td><td>§2.2</td></tr>
+            <tr><td>4</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-4_MCP_tools.ipynb">MCP tools</a></td><td>§2</td></tr>
+            <tr><td>5</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-5_Memory_and_Guardrails_Agents.ipynb">Memory &amp; guardrails</a></td><td>§4</td></tr>
+            <tr><td>6</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-6_MultyAgent_Critical_and_Coordinator.ipynb">Multi-agent: critic &amp; coordinator</a></td><td>§3, §7</td></tr>
+            <tr><td>7</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-7_Score_Agent_Answer.ipynb">Scoring agent answers</a></td><td>§7.2–7.3</td></tr>
+            <tr><td>8</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-8_Different_RAG_techniques.ipynb">RAG techniques</a></td><td>§5</td></tr>
+            <tr><td>9</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-9_DSPy_components.ipynb">DSPy components</a></td><td>§6</td></tr>
+            <tr><td>10</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-10_TAO_think_act_observe_techniques.ipynb">TAO techniques</a></td><td>§3</td></tr>
+            <tr><td>11</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-11_LLM_Agent_Graph_Verdict_Medical_Claims.ipynb">Graph verdicts for medical claims</a></td><td>§8</td></tr>
+            <tr><td>12</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-12_AI_agent_fact_cheking_Digital_Clinical_Requirements.ipynb">Fact-checking clinical requirements</a></td><td>§8</td></tr>
+            <tr><td>13</td><td><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/lesson-13_HyDE_Russian_Clinical_Guidelines.ipynb">HyDE with clinical guidelines</a></td><td>§5.2</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="https://github.com/D2718281828nis/LLM_AI_agents">LLM_AI_agents on GitHub</a> · MIT licence ·
+    Educational simulations, not clinical advice. All figures are computed in your browser with plain JavaScript and SVG.
+  </footer>
+
+  <script src="js/core.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/s1-tokens.js"></script>
+  <script src="js/s2-tools.js"></script>
+  <script src="js/s3-tao.js"></script>
+  <script src="js/s4-memory.js"></script>
+  <script src="js/s5-rag.js"></script>
+  <script src="js/s6-dspy.js"></script>
+  <script src="js/s7-multi.js"></script>
+  <script src="js/s8-graph.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -136,6 +136,8 @@ function initNavigation() {
     // Smooth scroll for nav links
     elements.navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
+            // Only intercept in-page anchors; links to other pages (e.g. explainer/) navigate normally
+            if (!link.getAttribute('href').startsWith('#')) return;
             e.preventDefault();
             const targetId = link.getAttribute('href').substring(1);
             const targetSection = document.getElementById(targetId);
@@ -1160,13 +1162,18 @@ function animateMultiAgent() {
 // Demo Simulations
 // ============================================
 
+// User input is interpolated into innerHTML below, so it must be escaped
+function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 function runMCPDemo() {
     const query = document.getElementById('mcpQuery').value || 'What\'s the weather in Paris?';
     const output = document.getElementById('mcpOutput');
     
     output.innerHTML = `
         <p class="demo-result">
-            <span class="highlight">Query:</span> "${query}"
+            <span class="highlight">Query:</span> "${escapeHTML(query)}"
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
             <span class="highlight">LLM Analysis:</span> User is asking for weather information
@@ -1192,7 +1199,7 @@ function runHyDEDemo() {
     
     output.innerHTML = `
         <p class="demo-result">
-            <span class="highlight">User Query:</span> "${query}"
+            <span class="highlight">User Query:</span> "${escapeHTML(query)}"
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
             <span class="highlight">HyDE Generation:</span> LLM creates a hypothetical comprehensive answer...
