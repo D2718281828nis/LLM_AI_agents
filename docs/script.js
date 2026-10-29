@@ -208,60 +208,25 @@ function toggleBackToTop() {
 function initConnectionLines() {
     if (!elements.connectionLines) return;
     
-    // Create connection lines between agent nodes
+    // Same centre coordinates (in % of .agent-network) as the .agent-* CSS rules
     const center = { x: 50, y: 50 };
     const nodes = [
-        { id: 'mcp', x: 50, y: 10, radius: 8 },
-        { id: 'memory', x: 10, y: 30, radius: 8 },
-        { id: 'rag', x: 90, y: 30, radius: 8 },
-        { id: 'hyde', x: 10, y: 70, radius: 8 },
-        { id: 'tao', x: 90, y: 70, radius: 8 }
+        { x: 50, y: 12.9 },   // MCP
+        { x: 85.3, y: 38.5 }, // RAG
+        { x: 71.8, y: 80.1 }, // TAO
+        { x: 28.2, y: 80.1 }, // HyDE
+        { x: 14.7, y: 38.5 }  // Memory
     ];
     
-    // Draw lines from center to each node
-    let html = '';
-    nodes.forEach(node => {
-        const angle = Math.atan2(node.y - center.y, node.x - center.x);
-        const distance = Math.sqrt(Math.pow(node.x - center.x, 2) + Math.pow(node.y - center.y, 2));
-        
-        html += `<div class="connection-line" style="
-            left: ${center.x}%;
-            top: ${center.y}%;
-            width: ${distance}%;
-            height: 1px;
-            transform: rotate(${angle * (180 / Math.PI)}deg) translateX(100%);
-            transform-origin: 0 0;
-            animation: drawLine 2s ease-out forwards;
-            animation-delay: ${Math.random() * 0.5}s;
-        "></div>`;
+    let lines = '';
+    nodes.forEach((n, i) => {
+        // spoke from the LLM core, then a ring segment to the next node
+        lines += `<line class="connection-line" x1="${center.x}" y1="${center.y}" x2="${n.x}" y2="${n.y}" pathLength="100" style="animation-delay:${i * 0.15}s"/>`;
+        const m = nodes[(i + 1) % nodes.length];
+        lines += `<line class="connection-line ring" x1="${n.x}" y1="${n.y}" x2="${m.x}" y2="${m.y}" pathLength="100" style="animation-delay:${0.8 + i * 0.15}s"/>`;
     });
     
-    // Also draw lines between outer nodes
-    for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-            if (Math.random() > 0.5) continue; // Randomly skip some for visual appeal
-            const node1 = nodes[i];
-            const node2 = nodes[j];
-            const dx = node2.x - node1.x;
-            const dy = node2.y - node1.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const angle = Math.atan2(dy, dx);
-            
-            html += `<div class="connection-line" style="
-                left: ${node1.x}%;
-                top: ${node1.y}%;
-                width: ${distance}%;
-                height: 1px;
-                transform: rotate(${angle * (180 / Math.PI)}deg);
-                transform-origin: 0 0;
-                animation: drawLine 2s ease-out forwards;
-                animation-delay: ${1 + Math.random() * 0.5}s;
-                opacity: 0.2;
-            "></div>`;
-        }
-    }
-    
-    elements.connectionLines.innerHTML = html;
+    elements.connectionLines.innerHTML = `<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>`;
 }
 
 // Add CSS animation for lines
@@ -361,26 +326,9 @@ function initThemeToggle() {
     themeButton.innerHTML = state.isDarkMode ? '&#127774;' : '&#127773;';
     themeButton.title = state.isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode';
     
-    // Add to header
-    const header = document.querySelector('.header .container');
-    if (header) {
-        themeButton.style.cssText = `
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            z-index: 100;
-        `;
-        header.appendChild(themeButton);
-    }
+    // Sit next to "View Repo" instead of absolutely on top of it
+    const actions = document.querySelector('.header-actions');
+    if (actions) actions.appendChild(themeButton);
     
     themeButton.addEventListener('click', toggleTheme);
 }

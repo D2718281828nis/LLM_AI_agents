@@ -76,6 +76,7 @@ body {
    Header
    ============================================ */
 .header {
+    position: relative;
     padding: 2rem 0;
     text-align: center;
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
@@ -122,6 +123,7 @@ body {
     right: 1rem;
     display: flex;
     gap: 0.75rem;
+    align-items: center;
 }
 
 .btn-sm {
@@ -335,7 +337,7 @@ body {
 }
 
 .agent-node:hover {
-    transform: scale(1.1);
+    transform: translate(-50%, -50%) scale(1.1);
     border-color: var(--primary-color);
     box-shadow: var(--shadow-glow);
 }
@@ -344,58 +346,52 @@ body {
     font-size: 1.5rem;
 }
 
+/* Every node is placed by its centre, so the hover scale keeps the translate */
+.agent-node { transform: translate(-50%, -50%); z-index: 1; }
+
 .agent-center {
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     width: 100px;
     height: 100px;
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(124, 58, 237, 0.3));
+    /* opaque base so the spokes don't show through the tinted gradient */
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(124, 58, 237, 0.3)), var(--bg-secondary);
     border-color: var(--primary-color);
-    z-index: 10;
+    z-index: 2;
 }
 
-.agent-mcp {
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.agent-memory {
-    top: 30%;
-    left: 10%;
-}
-
-.agent-rag {
-    top: 30%;
-    right: 10%;
-}
-
-.agent-hyde {
-    bottom: 30%;
-    left: 10%;
-}
-
-.agent-tao {
-    bottom: 30%;
-    right: 10%;
-}
+/* Five outer nodes evenly spaced on a circle around the centre */
+.agent-mcp    { left: 50%;   top: 12.9%; }
+.agent-rag    { left: 85.3%; top: 38.5%; }
+.agent-tao    { left: 71.8%; top: 80.1%; }
+.agent-hyde   { left: 28.2%; top: 80.1%; }
+.agent-memory { left: 14.7%; top: 38.5%; }
 
 .connection-lines {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.connection-lines svg {
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 5;
+    overflow: visible;
 }
 
 .connection-line {
-    position: absolute;
-    border: 1px solid var(--primary-lighter);
-    opacity: 0.3;
+    stroke: var(--primary-lighter);
+    stroke-width: 0.6;
+    opacity: 0.6;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: drawSvgLine 1.5s ease-out forwards;
 }
+
+.connection-line.ring { opacity: 0.3; }
+
+@keyframes drawSvgLine { to { stroke-dashoffset: 0; } }
 
 /* ============================================
    Sections
@@ -480,7 +476,8 @@ body {
 
 .lesson-icon {
     font-size: 2rem;
-    margin-bottom: 0.5rem;
+    margin: -0.25rem 0 0.5rem 2.5rem;  /* sit beside the absolutely-positioned .lesson-number */
+    line-height: 36px;
     color: var(--primary-lighter);
 }
 
@@ -1099,6 +1096,13 @@ body {
     .nav-link {
         padding: 0.5rem 0.75rem;
         font-size: 0.85rem;
+    }
+    
+    /* on phones the header buttons would cover the title: put them in the flow, centred */
+    .header-actions {
+        position: static;
+        justify-content: center;
+        margin-top: 1rem;
     }
     
     .hero {
