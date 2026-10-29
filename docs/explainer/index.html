@@ -8,6 +8,9 @@
   <meta property="og:title" content="LLM Agents Explainer — from one token to a team of agents">
   <meta property="og:description" content="Eight chapters, twelve live figures. Every number on the page is computed in your browser.">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="alternate" hreflang="ru" href="ru/">
+  <link rel="alternate" hreflang="en" href="./">
   <link rel="stylesheet" href="explainer.css">
 </head>
 <body>
@@ -28,7 +31,11 @@
         <a href="#lessons">Lessons</a>
       </nav>
       <a class="back-link" href="../">← Course home</a>
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme">☾</button>
+      <a class="lang-link" href="ru/" hreflang="ru" lang="ru" title="Русская версия">RU</a>
+      <div class="theme-switch" role="group" aria-label="Colour theme">
+        <button type="button" data-theme-set="light" aria-pressed="false">☀︎ <span class="tl">Light</span></button>
+        <button type="button" data-theme-set="dark" aria-pressed="false">☾ <span class="tl">Dark</span></button>
+      </div>
     </div>
   </header>
 
@@ -47,7 +54,7 @@
       <a class="index-card" href="#s2"><div class="n">2</div><h3>Tools and MCP</h3><p>How a model picks a tool, fills arguments, and talks JSON-RPC to a server.</p><div class="lessons">Lessons 3, 3A, 4</div></a>
       <a class="index-card" href="#s3"><div class="n">3</div><h3>Think → Act → Observe</h3><p>Step a real agent loop, inject failures, and watch the token bill grow.</p><div class="lessons">Lessons 6, 10</div></a>
       <a class="index-card" href="#s4"><div class="n">4</div><h3>Memory and guardrails</h3><p>What survives the context window, and what must never enter it.</p><div class="lessons">Lesson 5</div></a>
-      <a class="index-card" href="#s5"><div class="n">5</div><h3>RAG and HyDE</h3><p>Embeddings, cosine search, query decomposition and hypothetical documents.</p><div class="lessons">Lessons 8, 13</div></a>
+      <a class="index-card" href="#s5"><div class="n">5</div><h3>RAG and HyDE</h3><p>Embeddings, cosine search, query decomposition, and HyDE in depth: how it works, why it works, when it fails.</p><div class="lessons">Lessons 8, 13</div></a>
       <a class="index-card" href="#s6"><div class="n">6</div><h3>DSPy: compile, don't hand-tune</h3><p>Search for few-shot demos on a dev set, then face the test set.</p><div class="lessons">Lesson 9</div></a>
       <a class="index-card" href="#s7"><div class="n">7</div><h3>Teams of agents, and grading them</h3><p>Critic loops, LLM-as-judge calibration, and rubric trade-offs.</p><div class="lessons">Lessons 6, 7</div></a>
       <a class="index-card" href="#s8"><div class="n">8</div><h3>Fact-checking with graphs</h3><p>Claims as triples, verdicts from edges, and message passing.</p><div class="lessons">Lessons 11–13</div></a>
@@ -215,7 +222,58 @@
       <p class="fig-caption">To run offline, the hypothetical passage here comes from a lookup of concept sentences instead of a live LLM. Left: a 2-D PCA map — it keeps only a small share of the variance, so read distances loosely. Right: the faithful view, each document's similarity to the plain query vs. to the HyDE vector. Points above the diagonal are pulled in by HyDE.</p>
 
       <div class="prose">
-        <h3><span class="sub">5.3</span>Measure retrieval separately from generation</h3>
+        <h3><span class="sub">5.3</span>HyDE in depth: why questions and answers live far apart</h3>
+        <p>A dense retriever embeds the question and the documents with the same encoder, then hopes the question lands next to its answer.
+          But a question and its answer are different kinds of text. The question is short, interrogative and in the patient's words, sometimes
+          in another language. The guideline is long, declarative and in clinical terms. Two guideline passages on the same topic look much more
+          alike than a question and the passage that answers it. Retrieval is easier as <em>document-to-document</em> matching than
+          <em>question-to-document</em> matching.</p>
+        <p>HyDE (Gao, Ma, Lin &amp; Callan, <a href="https://arxiv.org/abs/2212.10496">"Precise Zero-Shot Dense Retrieval without Relevance Labels"</a>, 2022)
+          turns the first problem into the second. An instruction-following LLM writes what an answer <em>might</em> look like, and that text is
+          embedded instead. The paper samples several hypotheses and averages their embeddings together with the query's:</p>
+        <div class="math"><var>v</var> = 1/(<var>N</var>+1) · [ <var>f</var>(<var>q</var>) + Σ<sub><var>k</var>=1..<var>N</var></sub> <var>f</var>(<var>ĥ</var><sub><var>k</var></sub>) ], &nbsp;&nbsp; <var>ĥ</var><sub><var>k</var></sub> ~ LLM( "write a passage that answers <var>q</var>" )</div>
+        <p>No relevance labels and no retriever fine-tuning are needed. Only an LLM call is added, which is why HyDE is popular for new domains like
+          the Russian clinical guidelines in lesson 13.</p>
+
+        <h3><span class="sub">5.4</span>Live: the algorithm, stage by stage</h3>
+        <p>Step through the six stages, or click any box. The last three presets are Russian questions searched against an English index. The
+          index has never seen a single Russian word, so plain search scores zero. The LLM writes its hypotheses in guideline English, and
+          retrieval works anyway. Turn up the hallucination rate to see what a misread question does, then raise <var>N</var> to watch the
+          average absorb the error.</p>
+      </div>
+      <div class="fig" data-fig="hyde-deep"></div>
+      <p class="fig-caption">The hypotheses come from paraphrase lookups with seeded randomness, which stands in for sampling an LLM at temperature &gt; 0. Misread and stray sentences simulate hallucination. Retrieval, averaging and recall are computed for real.</p>
+
+      <div class="prose">
+        <h3><span class="sub">5.5</span>Why a fake answer is safe to search with</h3>
+        <ul>
+          <li><b>Topic over facts.</b> An embedding compresses a passage into a few hundred numbers. That captures <em>what it is about</em>
+            (anticoagulants, analgesics, bleeding) far more than <em>exact claims</em> (a wrong dose or a wrong drug name). A hypothesis can be
+            factually wrong and still point in the right direction. The paper calls the encoder a "lossy compressor" that filters out the hallucinated detail.</li>
+          <li><b>The hypothesis never reaches the user.</b> It is used for search only and then discarded. The answering model sees nothing
+            but the real retrieved documents (stage 6), so the answer stays grounded and citable.</li>
+          <li><b>Averaging votes out mistakes.</b> Independent samples tend to agree on the right topic and disagree on hallucinations, so
+            summing <var>N</var> embeddings reinforces the first and dilutes the second, as the curve above shows.</li>
+          <li><b>The query vector is a safety anchor.</b> Keeping <var>f</var>(<var>q</var>) in the average stops a completely misread
+            hypothesis set from drifting off-topic when the question shares any words with the corpus.</li>
+        </ul>
+
+        <h3><span class="sub">5.6</span>When to use it, and when not to</h3>
+        <div style="overflow-x:auto">
+        <table class="tbl">
+          <thead><tr><th>HyDE helps when…</th><th>HyDE hurts or wastes money when…</th></tr></thead>
+          <tbody>
+            <tr><td>users and documents use different vocabulary (lay vs clinical)</td><td>the query is already in document language ("ACE inhibitor dry cough")</td></tr>
+            <tr><td>the question and corpus are in different languages (lesson 13)</td><td>the query is an exact identifier: an ICD code, a drug batch number, a name — use keyword / BM25 search</td></tr>
+            <tr><td>there are no relevance labels to fine-tune a retriever</td><td>the LLM does not know the domain, so every hypothesis is wrong in the same way and averaging cannot help</td></tr>
+            <tr><td>questions are short and underspecified</td><td>latency matters: it adds one (or <var>N</var>) LLM calls before search even starts</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p style="margin-top:12px">In production, HyDE is often one branch of a hybrid retriever. Its results are merged with plain dense search and BM25, and
+          a reranker orders the union. That way a bad hypothesis can add candidates, but can't remove the good ones.</p>
+
+        <h3><span class="sub">5.7</span>Measure retrieval separately from generation</h3>
         <p><b>Recall@k</b> asks: of the documents that should have been found, what share made the top <var>k</var>? <b>MRR</b> (mean reciprocal rank)
           rewards putting the first relevant document near the top. If the right guideline never reaches the prompt, no amount of prompt
           engineering fixes the answer. So measure retrieval on its own, before blaming the LLM. Notice too that HyDE is not free: for

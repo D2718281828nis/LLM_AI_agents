@@ -319,60 +319,39 @@ function animateOnScroll() {
 // Theme Toggle
 // ============================================
 function initThemeToggle() {
-    // Create theme toggle button
-    const themeButton = document.createElement('button');
-    themeButton.id = 'themeToggle';
-    themeButton.className = 'theme-toggle';
-    themeButton.innerHTML = state.isDarkMode ? '&#127774;' : '&#127773;';
-    themeButton.title = state.isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-    
-    // Sit next to "View Repo" instead of absolutely on top of it
+    // Segmented Light / Dark switch next to "View Repo"; same storage key as the explainer pages
     const actions = document.querySelector('.header-actions');
-    if (actions) actions.appendChild(themeButton);
-    
-    themeButton.addEventListener('click', toggleTheme);
+    if (!actions) return;
+    const group = document.createElement('div');
+    group.className = 'theme-switch';
+    group.setAttribute('role', 'group');
+    group.setAttribute('aria-label', 'Colour theme');
+    group.innerHTML = '<button type="button" data-theme-set="light">&#9728;&#65038; Light</button>' +
+                      '<button type="button" data-theme-set="dark">&#9790; Dark</button>';
+    actions.appendChild(group);
+    group.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeSet)));
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
 }
 
-function toggleTheme() {
-    state.isDarkMode = !state.isDarkMode;
-    localStorage.setItem('theme', state.isDarkMode ? 'dark' : 'light');
+function setTheme(theme) {
+    try { localStorage.setItem('theme', theme); } catch (e) { /* storage blocked */ }
+    document.documentElement.dataset.theme = theme;
     applyTheme();
 }
 
 function loadThemePreference() {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    state.isDarkMode = savedTheme === 'dark';
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) { /* storage blocked */ }
+    if (saved) document.documentElement.dataset.theme = saved;
     applyTheme();
 }
 
 function applyTheme() {
-    const root = document.documentElement;
-    const themeButton = document.getElementById('themeToggle');
-    
-    if (state.isDarkMode) {
-        // Already dark by default
-        if (themeButton) {
-            themeButton.innerHTML = '&#127774;';
-            themeButton.title = 'Switch to Light Mode';
-        }
-    } else {
-        // Light theme
-        root.style.setProperty('--bg-color', '#f8fafc');
-        root.style.setProperty('--bg-secondary', '#f1f5f9');
-        root.style.setProperty('--bg-tertiary', '#e2e8f0');
-        root.style.setProperty('--bg-card', '#ffffff');
-        root.style.setProperty('--bg-card-hover', '#f8fafc');
-        root.style.setProperty('--text-primary', '#0f172a');
-        root.style.setProperty('--text-secondary', '#475569');
-        root.style.setProperty('--text-muted', '#94a3b8');
-        root.style.setProperty('--border-color', '#e2e8f0');
-        root.style.setProperty('--border-light', '#cbd5e1');
-        
-        if (themeButton) {
-            themeButton.innerHTML = '&#127773;';
-            themeButton.title = 'Switch to Dark Mode';
-        }
-    }
+    // Colours come from CSS ([data-theme] or the OS preference); here we only sync state and the switch
+    const explicit = document.documentElement.dataset.theme;
+    state.isDarkMode = explicit ? explicit === 'dark' : !window.matchMedia('(prefers-color-scheme: light)').matches;
+    document.querySelectorAll('.theme-switch button').forEach(b =>
+        b.setAttribute('aria-pressed', String((b.dataset.themeSet === 'dark') === state.isDarkMode)));
 }
 
 // ============================================

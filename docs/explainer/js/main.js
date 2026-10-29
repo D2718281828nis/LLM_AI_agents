@@ -2,18 +2,20 @@
 'use strict';
 
 (function () {
+  // Light / dark: explicit choice wins, else the OS setting. Shared with the course home page via the 'theme' key.
   const root = document.documentElement;
-  const btn = document.getElementById('themeBtn');
-  const prefersDark = () => matchMedia('(prefers-color-scheme: dark)').matches;
-  const current = () => root.dataset.theme || (prefersDark() ? 'dark' : 'light');
-  const label = () => { btn.textContent = current() === 'dark' ? '☀︎' : '☾'; btn.title = `Switch to ${current() === 'dark' ? 'light' : 'dark'} theme`; };
-  try { const t = localStorage.getItem('explainer-theme'); if (t) root.dataset.theme = t; } catch (e) { /* storage blocked */ }
-  btn.addEventListener('click', () => {
-    root.dataset.theme = current() === 'dark' ? 'light' : 'dark';
-    try { localStorage.setItem('explainer-theme', root.dataset.theme); } catch (e) { /* storage blocked */ }
-    label();
-  });
-  label();
+  const btns = [...document.querySelectorAll('[data-theme-set]')];
+  const os = matchMedia('(prefers-color-scheme: dark)');
+  const current = () => root.dataset.theme || (os.matches ? 'dark' : 'light');
+  const mark = () => btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeSet === current())));
+  try { const t = localStorage.getItem('theme') || localStorage.getItem('explainer-theme'); if (t) root.dataset.theme = t; } catch (e) { /* storage blocked */ }
+  btns.forEach(b => b.addEventListener('click', () => {
+    root.dataset.theme = b.dataset.themeSet;
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) { /* storage blocked */ }
+    mark();
+  }));
+  os.addEventListener('change', mark);
+  mark();
 
   for (const [name, fn] of Figs) mount(name, fn);
 

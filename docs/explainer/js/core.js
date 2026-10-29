@@ -3,6 +3,7 @@
 'use strict';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
+const LANG = (document.documentElement.lang || 'en').slice(0, 2);
 
 function setAttrs(node, attrs) {
   for (const k in attrs) {
@@ -98,7 +99,11 @@ const Tip = (() => {
   function hide() { if (node) node.classList.remove('show'); }
   /* bind(node, () => htmlString) — the callback must escape any user text */
   function bind(target, htmlFn) {
-    target.addEventListener('pointerenter', ev => show(htmlFn(), ev));
+    target.addEventListener('pointerenter', ev => {
+      const fig = target.closest && target.closest('[data-fig]');
+      ensure().dataset.fig = fig ? fig.dataset.fig : ''; // lets the translator use that figure's vocabulary
+      show(htmlFn(), ev);
+    });
     target.addEventListener('pointermove', move);
     target.addEventListener('pointerleave', hide);
     return target;

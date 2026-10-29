@@ -157,7 +157,8 @@ const PII_RULES = [
   { type: 'phone', label: 'Phone', re: /(?:\+\d{1,3}[\s-]?)?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}\b/g },
   { type: 'date', label: 'Date (e.g. birth date)', re: /\b\d{1,2}[./-]\d{1,2}[./-](?:19|20)\d{2}\b/g },
 ];
-const RED_FLAGS = ['chest pain', "can't breathe", 'cannot breathe', 'suicid', 'overdose', 'unconscious', 'stroke', 'severe bleeding'];
+const RED_FLAGS = ['chest pain', "can't breathe", 'cannot breathe', 'suicid', 'overdose', 'unconscious', 'stroke', 'severe bleeding',
+  'боль в груди', 'болит в груди', 'не могу дышать', 'задыхаюсь', 'суицид', 'передозир', 'без сознания', 'инсульт', 'сильное кровотечение'];
 
 function findPII(text) {
   const spans = [];
@@ -175,7 +176,9 @@ function findPII(text) {
 figure('guard', host => {
   const DEFAULT = "Hi, I'm Anna Petrova, born 12.03.1985. My SNILS is 112-233-445 95 and my phone is +7 916 123-45-67, " +
     'email anna.p@example.com. Card for the copay: 4111 1111 1111 1111. Since this morning I have chest pain, what should I take?';
-  const ta = el('textarea', { class: 'txt', 'aria-label': 'Patient message' }, DEFAULT);
+  const DEFAULT_RU = 'Здравствуйте, я Анна Петрова, родилась 12.03.1985. Мой СНИЛС 112-233-445 95, телефон +7 916 123-45-67, ' +
+    'почта anna.p@example.com. Карта для оплаты: 4111 1111 1111 1111. С утра боль в груди, что принять?';
+  const ta = el('textarea', { class: 'txt', 'aria-label': 'Patient message' }, LANG === 'ru' ? DEFAULT_RU : DEFAULT);
   ta.addEventListener('input', draw);
   const hl = el('div', { class: 'redact-view panel' }), red = el('div', { class: 'redact-view panel' }), rules = el('div', { class: 'rules' }), route = el('div');
   host.append(

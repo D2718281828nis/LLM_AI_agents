@@ -221,7 +221,7 @@ figure('rubric', host => {
       svg.append(sv('text', { x: x(scores[i]) + 6, y: yy + 24, class: 't-mono t-ink', text: scores[i].toFixed(3) + (i === best ? '  ★' : '') }));
     });
     box.replaceChildren(svg);
-    tbl.replaceChildren(el('div', { style: 'overflow-x:auto' }, el('table', { class: 'tbl' },
+    tbl.replaceChildren(el('div', { style: 'overflow-x:auto' }, el('table', { class: 'tbl nowrap-first' },
       el('thead', {}, el('tr', {}, el('th', { text: 'agent' }), RUBRIC.map(c => el('th', { text: c.split(' ')[0] })))),
       el('tbody', {}, ARCHS.map(([n, s]) => el('tr', {}, el('td', { text: n }), s.map(v => el('td', { class: 'num', text: v.toFixed(2) }))))))));
   }

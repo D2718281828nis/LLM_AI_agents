@@ -134,7 +134,7 @@ figure('graph', host => {
       el('div', { class: 'verdict ' + res.cls }, icon + ' ' + res.verdict),
       el('p', { style: 'margin:6px 0 0', text: `Claim: ${claim[0]} ${claim[1].replace('_', ' ')} ${claim[2]}.` }),
       el('p', { style: 'margin:6px 0 0;color:var(--ink-2)', text: res.why }),
-      res.edges.length ? el('pre', { style: 'margin-top:8px;font-size:12px', text: res.edges.map(e => `(${e[0]}) -[${e[1]}]-> (${e[2]})`).join('\n') }) : null);
+      ...(res.edges.length ? [el('pre', { style: 'margin-top:8px;font-size:12px', text: res.edges.map(e => `(${e[0]}) -[${e[1]}]-> (${e[2]})`).join('\n') })] : []));
 
     // representation similarity vs rounds
     const sims = range(5).map(t => { const P = propagate(t); return cosine(P.H[P.idx.get(claim[0])], P.H[P.idx.get(claim[2])]); });

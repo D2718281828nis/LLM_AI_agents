@@ -42,6 +42,55 @@
     
     /* Header */
     --header-height: 120px;
+
+    --bg-mid: #1a1a2e;
+    --section-wash: rgba(30, 41, 59, 0.5);
+    --section-wash-soft: rgba(30, 41, 59, 0.3);
+    color-scheme: dark;
+}
+
+/* Light theme: chosen explicitly, or by the OS when nothing was chosen */
+:root[data-theme="light"] {
+    --bg-color: #f8fafc;
+    --bg-secondary: #eef2f7;
+    --bg-tertiary: #e2e8f0;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f8fafc;
+    --bg-mid: #eef2ff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --border-light: #cbd5e1;
+    --primary-lighter: #2563eb;
+    --section-wash: rgba(226, 232, 240, 0.6);
+    --section-wash-soft: rgba(226, 232, 240, 0.4);
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 4px 6px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 10px 15px rgba(15, 23, 42, 0.10);
+    color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+        --bg-color: #f8fafc;
+        --bg-secondary: #eef2f7;
+        --bg-tertiary: #e2e8f0;
+        --bg-card: #ffffff;
+        --bg-card-hover: #f8fafc;
+        --bg-mid: #eef2ff;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #64748b;
+        --border-color: #e2e8f0;
+        --border-light: #cbd5e1;
+        --primary-lighter: #2563eb;
+        --section-wash: rgba(226, 232, 240, 0.6);
+        --section-wash-soft: rgba(226, 232, 240, 0.4);
+        --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.08);
+        --shadow-md: 0 4px 6px rgba(15, 23, 42, 0.08);
+        --shadow-lg: 0 10px 15px rgba(15, 23, 42, 0.10);
+        color-scheme: light;
+    }
 }
 
 /* Reset & Base Styles */
@@ -58,7 +107,7 @@ html {
 
 body {
     font-family: var(--font-sans);
-    background: linear-gradient(135deg, var(--bg-color) 0%, #1a1a2e 50%, var(--bg-color) 100%);
+    background: linear-gradient(135deg, var(--bg-color) 0%, var(--bg-mid) 50%, var(--bg-color) 100%);
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
@@ -130,6 +179,42 @@ body {
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
 }
+
+.theme-switch {
+    display: inline-flex;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.theme-switch button {
+    font: inherit;
+    font-size: 0.8rem;
+    padding: 0.45rem 0.8rem;
+    border: 0;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.theme-switch button[aria-pressed="true"] {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.lang-pill {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 0.45rem 0.8rem;
+}
+
+.lang-pill:hover { color: var(--text-primary); border-color: var(--primary-color); }
 
 .theme-toggle {
     width: 40px;
@@ -427,7 +512,7 @@ body {
    ============================================ */
 .lessons-section {
     padding: 4rem 0;
-    background: linear-gradient(180deg, transparent, rgba(30, 41, 59, 0.5), transparent);
+    background: linear-gradient(180deg, transparent, var(--section-wash), transparent);
 }
 
 .lessons-grid {
@@ -523,7 +608,7 @@ body {
 .tag-llama { background: rgba(139, 92, 246, 0.3); color: #8b5cf6; border: 1px solid #8b5cf6; }
 .tag-langchain { background: rgba(37, 99, 235, 0.2); color: var(--primary-color); border: 1px solid var(--primary-color); }
 .tag-mcp { background: rgba(124, 58, 237, 0.2); color: var(--secondary-color); border: 1px solid var(--secondary-color); }
-.tag-openai { background: rgba(0, 0, 0, 0.3); color: white; border: 1px solid white; }
+.tag-openai { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--text-primary); }
 .tag-memory { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid #3b82f6; }
 .tag-multi { background: rgba(236, 72, 153, 0.2); color: #ec4899; border: 1px solid #ec4899; }
 .tag-scoring { background: rgba(245, 158, 11, 0.2); color: var(--warning-color); border: 1px solid var(--warning-color); }
@@ -664,7 +749,7 @@ body {
    ============================================ */
 .demos-section {
     padding: 4rem 0;
-    background: linear-gradient(180deg, transparent, rgba(30, 41, 59, 0.3), transparent);
+    background: linear-gradient(180deg, transparent, var(--section-wash-soft), transparent);
 }
 
 .demos-grid {
