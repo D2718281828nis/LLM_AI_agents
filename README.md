@@ -15,6 +15,7 @@ This repository is organized as executable Jupyter notebooks that demonstrate pa
 | Lesson | Topic | Key technique / tool |
 |--------|-------|----------------------|
 | 1-2 | Basic & Llama inference | Mistral, OpenAI, Llama |
+| 2A | OrbitLM agent in Colab | Transformers, function calling, TAO |
 | 3 / 3A | Simple agents & MCP emulation | LangChain, MCP examples |
 | 4 | MCP Tools | Model Context Protocol (tool wrapping, tool loop) |
 | 5 | Memory & Guardrails | Conversation buffers, content safety |
@@ -33,6 +34,10 @@ This repository is organized as executable Jupyter notebooks that demonstrate pa
 - HyDE (Hypothetical Document Embeddings): generate a hypothetical answer to form better retrieval queries (see lesson-13_HyDE_Russian_Clinical_Guidelines.ipynb).
 - Agent Patterns: TAO / ReAct loops, single-agent with guardrails + memory, and explicit multi-agent patterns (coordinator, critic, workers).
 
+## Additional learning resources
+
+- [How LLMs work (with Gemma 4)](https://gemma.ai/learn/how-llms-work/) — an interactive guide to the five stages of an LLM forward pass: tokenization, embeddings, transformer layers, next-token sampling, and the autoregressive loop. A useful visual companion to Lessons 1–2 before moving on to agent workflows.
+
 ## Repository contents (top-level)
 
 ```
@@ -41,6 +46,7 @@ README.md
 canonical-example-Get-started-managed-agents.ipynb  # runnable example (managed agents)
 lesson-1_LLM_base_inference.ipynb
 lesson-2_Llama_example_inference.ipynb
+lesson-2A_OrbitLM_Colab_Agent.ipynb
 lesson-3_simple_agent_Langchain.ipynb
 lesson-3A_MCP_example_emulation.ipynb
 lesson-4_MCP_tools.ipynb
