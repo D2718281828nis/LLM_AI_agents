@@ -42,6 +42,7 @@
         <div class="container">
             <a href="#hero" class="nav-link active">Home</a>
             <a href="#lessons" class="nav-link">Lessons</a>
+            <a href="#orbit" class="nav-link">Looped LLM</a>
             <a href="#concepts" class="nav-link">Key Concepts</a>
             <a href="#demos" class="nav-link">Interactive Demos</a>
             <a href="#roadmap" class="nav-link">Learning Path</a>
@@ -339,6 +340,175 @@
                     </div>
                     <span class="featured-badge">Core Concept</span>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Looped LLM / OrbitLM Section -->
+    <section id="orbit" class="orbit-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#8635;</span>
+                Looped LLM: Dense Transformer vs OrbitLM
+            </h2>
+            <p class="section-description">
+                Follow a token through a conventional transformer and OrbitLM. The key difference is not another prompt or agent loop: OrbitLM repeatedly applies the same transformer stack inside the model.
+            </p>
+
+            <div class="orbit-comparison">
+                <article class="orbit-compare-card orbit-dense-card">
+                    <div class="orbit-card-kicker">Conventional dense LLM</div>
+                    <h3>Different weights at every depth</h3>
+                    <p>A token passes through the layer stack once. Each layer has its own parameters.</p>
+                    <div class="orbit-mini-flow" aria-label="Embedding followed by unique transformer layers and output">
+                        <span class="orbit-mini-node">Token</span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node orbit-weight-1">L<sub>1</sub></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node orbit-weight-2">L<sub>2</sub></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node orbit-weight-3">L<sub>3</sub></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node">Output</span>
+                    </div>
+                    <div class="orbit-formula">h<sup>L</sup> = f<sub>L</sub>(...f<sub>2</sub>(f<sub>1</sub>(h<sup>0</sup>)))</div>
+                    <ul class="orbit-feature-list">
+                        <li>One forward pass through the stack</li>
+                        <li>Unique L<sub>1</sub>, L<sub>2</sub>, ..., L<sub>N</sub> weights</li>
+                        <li>Compute grows with the number of stored layers</li>
+                    </ul>
+                </article>
+
+                <article class="orbit-compare-card orbit-looped-card">
+                    <div class="orbit-card-kicker">Looped language model</div>
+                    <h3>More depth through weight reuse</h3>
+                    <p>OrbitLM sends the representation through one shared 24-layer stack up to four times.</p>
+                    <div class="orbit-mini-flow" aria-label="Token repeatedly processed by one shared transformer block">
+                        <span class="orbit-mini-node">h<sup>0</sup></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node orbit-shared-weight">W<sub>shared</sub></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node">h<sup>1</sup></span>
+                        <span class="orbit-loop-badge">repeat &times;4</span>
+                    </div>
+                    <div class="orbit-formula">h<sup>k</sup> = F<sub>shared</sub>(h<sup>k&minus;1</sup>), &nbsp; k = 1...4</div>
+                    <ul class="orbit-feature-list">
+                        <li>The same W<sub>shared</sub> is reused at every pass</li>
+                        <li>An exit gate scores readiness after each pass</li>
+                        <li>More compute does not mean four times more stored layers</li>
+                    </ul>
+                </article>
+            </div>
+
+            <div class="orbit-facts" aria-label="OrbitLM architecture facts">
+                <div><strong>24</strong><span>shared transformer layers</span></div>
+                <div><strong>4</strong><span>maximum recurrent passes</span></div>
+                <div><strong>1.86B</strong><span>unique parameters</span></div>
+                <div><strong>5.24B</strong><span>parameter applications per generated token</span></div>
+            </div>
+
+            <div class="orbit-explorer">
+                <div class="orbit-explorer-header">
+                    <div>
+                        <div class="orbit-card-kicker">Interactive architecture explorer</div>
+                        <h3>Run one token through the loop</h3>
+                    </div>
+                    <span class="orbit-simulation-label">Conceptual simulation</span>
+                </div>
+
+                <div class="orbit-controls">
+                    <div class="orbit-control-buttons">
+                        <button class="btn btn-primary" id="orbitPlayButton" onclick="orbitPlay()">Play</button>
+                        <button class="btn btn-secondary" onclick="orbitNextStep()">Next step</button>
+                        <button class="btn btn-secondary" onclick="orbitReset()">Reset</button>
+                    </div>
+                    <div class="orbit-budget-control">
+                        <label for="orbitPassControl">Compute budget: <strong id="orbitPassValue">4 passes</strong></label>
+                        <input type="range" id="orbitPassControl" min="1" max="4" step="1" value="4" oninput="orbitSetPasses(this.value)">
+                        <code>exit_at_step=<span id="orbitExitStep">3</span></code>
+                    </div>
+                </div>
+
+                <div class="orbit-canvas">
+                    <svg class="orbit-diagram" viewBox="0 0 1000 350" role="img" aria-labelledby="orbitDiagramTitle orbitDiagramDescription">
+                        <title id="orbitDiagramTitle">OrbitLM recurrent-depth data flow</title>
+                        <desc id="orbitDiagramDescription">A token embedding enters one shared 24-layer transformer stack. After each pass an exit gate either sends the representation back through the same stack or to the language model head.</desc>
+                        <defs>
+                            <marker id="orbitArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="orbit-arrow-head"></path>
+                            </marker>
+                        </defs>
+
+                        <path id="orbitInputPath" class="orbit-flow-path" d="M210 165 H300" marker-end="url(#orbitArrow)"></path>
+                        <path id="orbitSharedGatePath" class="orbit-flow-path" d="M560 165 H660" marker-end="url(#orbitArrow)"></path>
+                        <path id="orbitOutputPath" class="orbit-flow-path" d="M840 165 H865" marker-end="url(#orbitArrow)"></path>
+                        <path id="orbitLoopPath" class="orbit-flow-path orbit-loop-path" d="M750 225 C750 318 430 330 430 250" marker-end="url(#orbitArrow)"></path>
+                        <text x="590" y="326" class="orbit-loop-caption">same weights, refined representation</text>
+
+                        <g id="orbitInputNode" class="orbit-svg-node">
+                            <rect x="40" y="115" width="170" height="100" rx="16"></rect>
+                            <text x="125" y="145" class="orbit-svg-kicker">INPUT</text>
+                            <text x="125" y="174" class="orbit-svg-title">17 &times; 23 =</text>
+                            <text x="125" y="197" class="orbit-svg-subtitle">embedding h&#8304;</text>
+                        </g>
+
+                        <g id="orbitSharedNode" class="orbit-svg-node orbit-shared-node">
+                            <rect x="300" y="75" width="260" height="175" rx="18"></rect>
+                            <rect x="326" y="118" width="208" height="42" rx="8" class="orbit-layer-strip"></rect>
+                            <rect x="326" y="166" width="208" height="42" rx="8" class="orbit-layer-strip"></rect>
+                            <text x="430" y="103" class="orbit-svg-title">24 shared layers</text>
+                            <text x="430" y="144" class="orbit-svg-subtitle">Attention + SwiGLU MLP</text>
+                            <text id="orbitSharedPass" x="430" y="192" class="orbit-svg-pass">Pass 0 / 4</text>
+                            <text x="430" y="229" class="orbit-svg-kicker">SAME W SHARED EVERY PASS</text>
+                        </g>
+
+                        <g id="orbitGateNode" class="orbit-svg-node orbit-gate-node">
+                            <rect x="660" y="110" width="180" height="115" rx="16"></rect>
+                            <text x="750" y="140" class="orbit-svg-kicker">EXIT GATE</text>
+                            <text x="750" y="169" class="orbit-svg-title">ready to stop?</text>
+                            <text id="orbitGateDecision" x="750" y="199" class="orbit-svg-subtitle">waiting for pass</text>
+                        </g>
+
+                        <g id="orbitOutputNode" class="orbit-svg-node orbit-output-node">
+                            <rect x="865" y="115" width="110" height="100" rx="16"></rect>
+                            <text x="920" y="145" class="orbit-svg-kicker">LM HEAD</text>
+                            <text x="920" y="174" class="orbit-svg-title">391</text>
+                            <text x="920" y="197" class="orbit-svg-subtitle">next token</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="orbit-pass-track" aria-label="Recurrent pass progress">
+                    <span data-orbit-pass="1">Pass 1</span>
+                    <span data-orbit-pass="2">Pass 2</span>
+                    <span data-orbit-pass="3">Pass 3</span>
+                    <span data-orbit-pass="4">Pass 4</span>
+                </div>
+                <div class="orbit-step-narration" aria-live="polite">
+                    <strong id="orbitStepTitle">Token embedding</strong>
+                    <p id="orbitStepDescription">The prompt is tokenized and mapped to vectors. Press Play or Next step to follow the representation.</p>
+                </div>
+            </div>
+
+            <div class="orbit-explain-grid">
+                <article class="orbit-explain-card">
+                    <h3>What does the exit gate do?</h3>
+                    <p>After every pass, a small learned gate scores whether the token representation is ready for output. Generation can use a fixed <code>exit_at_step</code> or an exit-probability threshold. Fewer passes are faster, but can be weaker.</p>
+                </article>
+                <article class="orbit-explain-card">
+                    <h3>What is the trade-off?</h3>
+                    <p>Weight reuse increases effective depth without four separate layer stacks. It does not eliminate computation: OrbitLM applies about 5.24B parameters per token and keeps separate K/V entries for every pass &mdash; 96 layer entries per token.</p>
+                </article>
+                <article class="orbit-explain-card orbit-agent-distinction">
+                    <h3>Looped LLM &ne; agent loop</h3>
+                    <p><strong>Inner loop:</strong> repeated neural computation while producing a token. <strong>Outer agent loop:</strong> model &rarr; tool call &rarr; observation &rarr; model. OrbitLM can run inside TAO, but does not replace it.</p>
+                </article>
+            </div>
+
+            <div class="orbit-resource-links">
+                <a href="https://huggingface.co/ai-forever/OrbitLM-1.8B-Thinking" target="_blank" rel="noopener" class="btn btn-secondary">OrbitLM model card &nearr;</a>
+                <a href="https://colab.research.google.com/github/D2718281828nis/LLM_AI_agents/blob/main/lesson-2A_OrbitLM_Colab_Agent.ipynb" target="_blank" rel="noopener" class="btn btn-primary">Run Lesson 2A in Colab &rarr;</a>
+                <a href="https://poloclub.github.io/transformer-explainer/" target="_blank" rel="noopener" class="orbit-text-link">Explore the Transformer Explainer that inspired this walkthrough &nearr;</a>
             </div>
         </div>
     </section>

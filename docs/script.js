@@ -1086,6 +1086,157 @@ function animateMultiAgent() {
 }
 
 // ============================================
+// Looped LLM / OrbitLM Explorer
+// ============================================
+const orbitExplorerState = {
+    step: 0,
+    passes: 4,
+    timer: null,
+    isPlaying: false
+};
+
+function orbitSteps() {
+    const steps = [{
+        kind: 'input',
+        pass: 0,
+        title: 'Token embedding',
+        description: 'The prompt is tokenized and mapped to vectors. Press Play or Next step to follow the representation.'
+    }];
+
+    for (let pass = 1; pass <= orbitExplorerState.passes; pass += 1) {
+        steps.push({
+            kind: 'shared',
+            pass,
+            title: `Pass ${pass}: the same 24-layer stack`,
+            description: `The shared weights transform h${pass - 1} into h${pass}. No new layer stack is loaded: OrbitLM reuses the same W shared to refine the representation.`
+        });
+        const isFinalPass = pass === orbitExplorerState.passes;
+        steps.push({
+            kind: isFinalPass ? 'exit' : 'loop',
+            pass,
+            title: isFinalPass ? `Pass ${pass}: exit to the LM head` : `Pass ${pass}: loop back`,
+            description: isFinalPass
+                ? 'The selected compute budget is reached. This representation is projected to vocabulary logits and the next token is sampled.'
+                : 'Another pass is requested. In adaptive generation the exit gate can stop earlier; in this fixed-budget demo we continue until the selected exit_at_step.'
+        });
+    }
+
+    steps.push({
+        kind: 'output',
+        pass: orbitExplorerState.passes,
+        title: 'Next-token prediction',
+        description: 'The LM head produces a probability distribution and sampling selects the next token. The autoregressive process then repeats for the following token.'
+    });
+    return steps;
+}
+
+function orbitStopPlayback(label = 'Play') {
+    if (orbitExplorerState.timer) {
+        clearInterval(orbitExplorerState.timer);
+        orbitExplorerState.timer = null;
+    }
+    orbitExplorerState.isPlaying = false;
+    const button = document.getElementById('orbitPlayButton');
+    if (button) button.textContent = label;
+}
+
+function orbitRender() {
+    const steps = orbitSteps();
+    const current = steps[orbitExplorerState.step];
+    const root = document.getElementById('orbit');
+    if (!root || !current) return;
+
+    root.querySelectorAll('.orbit-svg-node, .orbit-flow-path').forEach(node => {
+        node.classList.remove('is-active', 'is-complete');
+    });
+    root.querySelectorAll('[data-orbit-pass]').forEach(node => {
+        const pass = Number(node.dataset.orbitPass);
+        node.classList.toggle('is-skipped', pass > orbitExplorerState.passes);
+        node.classList.toggle('is-complete', current.kind === 'output' || pass < current.pass);
+        node.classList.toggle('is-active', current.kind !== 'output' && pass === current.pass);
+    });
+
+    const setState = (id, className) => {
+        const node = document.getElementById(id);
+        if (node) node.classList.add(className);
+    };
+
+    if (current.kind === 'input') {
+        setState('orbitInputNode', 'is-active');
+        setState('orbitInputPath', 'is-active');
+    } else {
+        setState('orbitInputNode', 'is-complete');
+    }
+
+    if (current.kind === 'shared') {
+        setState('orbitSharedNode', 'is-active');
+        setState('orbitInputPath', 'is-active');
+    } else if (current.pass > 0) {
+        setState('orbitSharedNode', 'is-complete');
+    }
+
+    if (current.kind === 'loop' || current.kind === 'exit') {
+        setState('orbitGateNode', 'is-active');
+        setState('orbitSharedGatePath', 'is-active');
+    }
+    if (current.kind === 'loop') setState('orbitLoopPath', 'is-active');
+    if (current.kind === 'exit') setState('orbitOutputPath', 'is-active');
+    if (current.kind === 'output') {
+        setState('orbitGateNode', 'is-complete');
+        setState('orbitOutputNode', 'is-active');
+        setState('orbitOutputPath', 'is-active');
+    }
+
+    document.getElementById('orbitSharedPass').textContent = `Pass ${current.pass} / ${orbitExplorerState.passes}`;
+    document.getElementById('orbitGateDecision').textContent = {
+        input: 'waiting for pass',
+        shared: 'scoring readiness',
+        loop: 'continue → same weights',
+        exit: 'stop → read out',
+        output: 'token emitted'
+    }[current.kind];
+    document.getElementById('orbitStepTitle').textContent = current.title;
+    document.getElementById('orbitStepDescription').textContent = current.description;
+}
+
+function orbitNextStep() {
+    const steps = orbitSteps();
+    if (orbitExplorerState.step >= steps.length - 1) {
+        orbitStopPlayback('Play again');
+        return;
+    }
+    orbitExplorerState.step += 1;
+    orbitRender();
+    if (orbitExplorerState.step >= steps.length - 1) orbitStopPlayback('Play again');
+}
+
+function orbitPlay() {
+    if (orbitExplorerState.isPlaying) {
+        orbitStopPlayback();
+        return;
+    }
+    if (orbitExplorerState.step >= orbitSteps().length - 1) orbitExplorerState.step = 0;
+    orbitExplorerState.isPlaying = true;
+    document.getElementById('orbitPlayButton').textContent = 'Pause';
+    orbitNextStep();
+    if (!orbitExplorerState.isPlaying) return;
+    orbitExplorerState.timer = setInterval(orbitNextStep, 1300);
+}
+
+function orbitSetPasses(value) {
+    orbitExplorerState.passes = Number(value);
+    document.getElementById('orbitPassValue').textContent = `${value} ${Number(value) === 1 ? 'pass' : 'passes'}`;
+    document.getElementById('orbitExitStep').textContent = String(Number(value) - 1);
+    orbitReset();
+}
+
+function orbitReset() {
+    orbitStopPlayback();
+    orbitExplorerState.step = 0;
+    orbitRender();
+}
+
+// ============================================
 // Demo Simulations
 // ============================================
 
