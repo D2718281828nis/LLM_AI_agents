@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM AI Agents — интерактивное учебное демо</title>
+    <meta name="description" content="Интерактивное учебное демо по созданию ИИ-агентов на основе LLM. 13 уроков об MCP, HyDE, TAO, RAG, DSPy и мультиагентных системах.">
+    <meta name="keywords" content="LLM, ИИ-агенты, машинное обучение, MCP, HyDE, TAO, RAG, DSPy, LangChain, обучение">
+    <meta name="author" content="TAUforPython">
+    <meta property="og:title" content="LLM AI Agents — интерактивное учебное демо">
+    <meta property="og:description" content="Интерактивное учебное демо по созданию ИИ-агентов на основе LLM. 13 уроков о современных архитектурах агентов.">
+    <meta property="og:type" content="website">
+    <link rel="alternate" hreflang="en" href="../">
+    <link rel="alternate" hreflang="ru" href="./">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-navbutton-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">&#9733;</span>
+                <h1>LLM AI Agents</h1>
+            </div>
+            <p class="subtitle">Интерактивное учебное демо — 13 уроков по созданию ИИ-агентов</p>
+            <div class="header-actions">
+                <a href="https://github.com/D2718281828nis/LLM_AI_agents" target="_blank" class="btn btn-secondary btn-sm">
+                    <span>&#128213;</span> Репозиторий
+                </a>
+                <a href="../" class="lang-pill" hreflang="en" lang="en" title="English version" aria-label="Switch to English">EN</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="container">
+            <a href="#hero" class="nav-link active">Главная</a>
+            <a href="#lessons" class="nav-link">Уроки</a>
+            <a href="#orbit" class="nav-link">Циклическая LLM</a>
+            <a href="#concepts" class="nav-link">Ключевые концепции</a>
+            <a href="#demos" class="nav-link">Интерактивные демо</a>
+            <a href="#roadmap" class="nav-link">Маршрут обучения</a>
+            <a href="../explainer/ru/" class="nav-link">Учебник &#8599;</a>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>От базового инференса к мультиагентным системам</h2>
+                <p class="hero-description">
+                    Это интерактивное демо поможет вам научиться создавать ИИ-агентов на основе LLM.
+                    Изучайте программу из 13 уроков, проверяйте концепции в живых симуляциях
+                    и разбирайтесь в устройстве современных ИИ-агентов.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">13</span>
+                        <span class="stat-label">уроков</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">ключевых концепций</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">демо-симулятора</span>
+                    </div>
+                </div>
+                <a href="#lessons" class="btn btn-primary btn-large">
+                    Начать обучение &rarr;
+                </a>
+                <a href="../explainer/ru/" class="btn btn-secondary btn-large">
+                    Интерактивный учебник &rarr;
+                </a>
+            </div>
+            <div class="hero-visual">
+                <div class="agent-network">
+                    <div class="connection-lines" id="connectionLines"></div>
+                    <div class="agent-node agent-center">
+                        <span class="agent-icon">&#9889;</span>
+                        <span>Ядро LLM</span>
+                    </div>
+                    <div class="agent-node agent-mcp">
+                        <span class="agent-icon">&#9881;</span>
+                        <span>Инструменты MCP</span>
+                    </div>
+                    <div class="agent-node agent-memory">
+                        <span class="agent-icon">&#9998;</span>
+                        <span>Память</span>
+                    </div>
+                    <div class="agent-node agent-rag">
+                        <span class="agent-icon">&#9997;</span>
+                        <span>RAG</span>
+                    </div>
+                    <div class="agent-node agent-hyde">
+                        <span class="agent-icon">&#9730;</span>
+                        <span>HyDE</span>
+                    </div>
+                    <div class="agent-node agent-tao">
+                        <span class="agent-icon">&#10024;</span>
+                        <span>TAO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="lessons" class="lessons-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#128218;</span>
+                13 последовательных уроков
+            </h2>
+            <p class="section-description">
+                От базового инференса LLM до продвинутых мультиагентных систем и медицинских приложений.
+                Каждый урок опирается на предыдущий.
+            </p>
+
+            <div class="lessons-grid">
+                <div class="lesson-card" data-lesson="1" data-category="foundations">
+                    <div class="lesson-number">1</div>
+                    <div class="lesson-icon">&#9889;</div>
+                    <h3>Базовый инференс LLM</h3>
+                    <p>Локальный инференс и API, настройка GPU, галлюцинации</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-foundation">Основы</span>
+                        <span class="tag tag-mistral">Mistral</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card" data-lesson="2" data-category="foundations">
+                    <div class="lesson-number">2</div>
+                    <div class="lesson-icon">&#129726;</div>
+                    <h3>Инференс Llama</h3>
+                    <p>Примеры и сравнение моделей Llama</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-foundation">Основы</span>
+                        <span class="tag tag-llama">Llama</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card" data-lesson="3" data-category="agents">
+                    <div class="lesson-number">3</div>
+                    <div class="lesson-icon">&#129302;</div>
+                    <h3>Простой агент на LangChain</h3>
+                    <p>Первые агентные шаблоны и основы LangChain</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-agents">Агенты</span>
+                        <span class="tag tag-langchain">LangChain</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card" data-lesson="3a" data-category="tools">
+                    <div class="lesson-number">3A</div>
+                    <div class="lesson-icon">&#9881;</div>
+                    <h3>Эмуляция MCP</h3>
+                    <p>Симуляция Model Context Protocol</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-tools">Инструменты</span>
+                        <span class="tag tag-mcp">MCP</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card featured" data-lesson="4" data-category="tools">
+                    <div class="lesson-number">4</div>
+                    <div class="lesson-icon">&#9881;</div>
+                    <h3>Инструменты MCP</h3>
+                    <p>Обертывание инструментов, вызов функций, цикл инструментов</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-tools">Инструменты</span>
+                        <span class="tag tag-mcp">MCP</span>
+                        <span class="tag tag-openai">OpenAI</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                    <span class="featured-badge">Ключевая концепция</span>
+                </div>
+
+                <div class="lesson-card" data-lesson="5" data-category="agents">
+                    <div class="lesson-number">5</div>
+                    <div class="lesson-icon">&#128737;</div>
+                    <h3>Память и ограничения</h3>
+                    <p>Буферы диалога и безопасность контента</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-agents">Агенты</span>
+                        <span class="tag tag-memory">Память</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card" data-lesson="6" data-category="agents">
+                    <div class="lesson-number">6</div>
+                    <div class="lesson-icon">&#128100;</div>
+                    <h3>Мультиагентные системы</h3>
+                    <p>Шаблон «Критик + координатор»</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-agents">Агенты</span>
+                        <span class="tag tag-multi">Мультиагентность</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card" data-lesson="7" data-category="evaluation">
+                    <div class="lesson-number">7</div>
+                    <div class="lesson-icon">&#128202;</div>
+                    <h3>Оценка ответов агента</h3>
+                    <p>Автоматизированные метрики оценки</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-evaluation">Оценка</span>
+                        <span class="tag tag-scoring">Скоринг</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card" data-lesson="8" data-category="retrieval">
+                    <div class="lesson-number">8</div>
+                    <div class="lesson-icon">&#128196;</div>
+                    <h3>Методы RAG</h3>
+                    <p>Базовый и продвинутый RAG, преобразование запросов</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-retrieval">Поиск</span>
+                        <span class="tag tag-rag">RAG</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card" data-lesson="9" data-category="frameworks">
+                    <div class="lesson-number">9</div>
+                    <div class="lesson-icon">&#128736;</div>
+                    <h3>Компоненты DSPy</h3>
+                    <p>Программные конвейеры языковых моделей</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-frameworks">Фреймворки</span>
+                        <span class="tag tag-dspy">DSPy</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card featured" data-lesson="10" data-category="patterns">
+                    <div class="lesson-number">10</div>
+                    <div class="lesson-icon">&#10024;</div>
+                    <h3>Методы TAO</h3>
+                    <p>Циклы «Мысль — действие — наблюдение» (аналог ReAct)</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-patterns">Шаблоны</span>
+                        <span class="tag tag-tao">TAO</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                    <span class="featured-badge">Ключевая концепция</span>
+                </div>
+
+                <div class="lesson-card" data-lesson="11" data-category="applications">
+                    <div class="lesson-number">11</div>
+                    <div class="lesson-icon">&#128722;</div>
+                    <h3>Заключение по медицинским утверждениям</h3>
+                    <p>Граф агентов для анализа медицинских утверждений</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-applications">Приложения</span>
+                        <span class="tag tag-medical">Медицина</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card" data-lesson="12" data-category="applications">
+                    <div class="lesson-number">12</div>
+                    <div class="lesson-icon">&#128221;</div>
+                    <h3>Проверка фактов с помощью ИИ</h3>
+                    <p>Проверка цифровых клинических требований</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-applications">Приложения</span>
+                        <span class="tag tag-medical">Медицина</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                </div>
+
+                <div class="lesson-card featured" data-lesson="13" data-category="retrieval">
+                    <div class="lesson-number">13</div>
+                    <div class="lesson-icon">&#127996;</div>
+                    <h3>HyDE для клинических рекомендаций</h3>
+                    <p>Эмбеддинги гипотетических документов для русскоязычных рекомендаций</p>
+                    <div class="lesson-tags">
+                        <span class="tag tag-retrieval">Поиск</span>
+                        <span class="tag tag-hyde">HyDE</span>
+                        <span class="tag tag-medical">Медицина</span>
+                    </div>
+                    <div class="lesson-progress"><span class="progress-bar"></span></div>
+                    <span class="featured-badge">Ключевая концепция</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="orbit" class="orbit-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#8635;</span>
+                Циклическая LLM: обычный трансформер и OrbitLM
+            </h2>
+            <p class="section-description">
+                Проследите путь токена через обычный трансформер и OrbitLM. Главное отличие — не новый промпт или агентный цикл: OrbitLM многократно применяет один и тот же стек трансформера внутри модели.
+            </p>
+
+            <div class="orbit-comparison">
+                <article class="orbit-compare-card orbit-dense-card">
+                    <div class="orbit-card-kicker">Обычная плотная LLM</div>
+                    <h3>Разные веса на каждой глубине</h3>
+                    <p>Токен проходит стек слоев один раз. У каждого слоя собственные параметры.</p>
+                    <div class="orbit-mini-flow" aria-label="Эмбеддинг, уникальные слои трансформера и выход">
+                        <span class="orbit-mini-node">Токен</span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node orbit-weight-1">L<sub>1</sub></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node orbit-weight-2">L<sub>2</sub></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node orbit-weight-3">L<sub>3</sub></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node">Выход</span>
+                    </div>
+                    <div class="orbit-formula">h<sup>L</sup> = f<sub>L</sub>(...f<sub>2</sub>(f<sub>1</sub>(h<sup>0</sup>)))</div>
+                    <ul class="orbit-feature-list">
+                        <li>Один прямой проход через стек</li>
+                        <li>Уникальные веса L<sub>1</sub>, L<sub>2</sub>, ..., L<sub>N</sub></li>
+                        <li>Вычисления растут вместе с числом хранимых слоев</li>
+                    </ul>
+                </article>
+
+                <article class="orbit-compare-card orbit-looped-card">
+                    <div class="orbit-card-kicker">Циклическая языковая модель</div>
+                    <h3>Большая глубина за счет повторного использования весов</h3>
+                    <p>OrbitLM пропускает представление через один общий стек из 24 слоев до четырех раз.</p>
+                    <div class="orbit-mini-flow" aria-label="Токен многократно обрабатывается одним общим блоком трансформера">
+                        <span class="orbit-mini-node">h<sup>0</sup></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node orbit-shared-weight">W<sub>shared</sub></span>
+                        <span class="orbit-mini-arrow">&rarr;</span>
+                        <span class="orbit-mini-node">h<sup>1</sup></span>
+                        <span class="orbit-loop-badge">повтор &times;4</span>
+                    </div>
+                    <div class="orbit-formula">h<sup>k</sup> = F<sub>shared</sub>(h<sup>k&minus;1</sup>), &nbsp; k = 1...4</div>
+                    <ul class="orbit-feature-list">
+                        <li>Одни и те же W<sub>shared</sub> используются на каждом проходе</li>
+                        <li>После каждого прохода выходной gate оценивает готовность</li>
+                        <li>Больше вычислений не означает вчетверо больше хранимых слоев</li>
+                    </ul>
+                </article>
+            </div>
+
+            <div class="orbit-facts" aria-label="Факты об архитектуре OrbitLM">
+                <div><strong>24</strong><span>общих слоя трансформера</span></div>
+                <div><strong>4</strong><span>максимум рекуррентных проходов</span></div>
+                <div><strong>1,86 млрд</strong><span>уникальных параметров</span></div>
+                <div><strong>5,24 млрд</strong><span>применений параметров на генерируемый токен</span></div>
+            </div>
+
+            <div class="orbit-explorer">
+                <div class="orbit-explorer-header">
+                    <div>
+                        <div class="orbit-card-kicker">Интерактивное исследование архитектуры</div>
+                        <h3>Проведите один токен через цикл</h3>
+                    </div>
+                    <span class="orbit-simulation-label">Концептуальная симуляция</span>
+                </div>
+
+                <div class="orbit-controls">
+                    <div class="orbit-control-buttons">
+                        <button class="btn btn-primary" id="orbitPlayButton" onclick="orbitPlay()">Запуск</button>
+                        <button class="btn btn-secondary" onclick="orbitNextStep()">Следующий шаг</button>
+                        <button class="btn btn-secondary" onclick="orbitReset()">Сброс</button>
+                    </div>
+                    <div class="orbit-budget-control">
+                        <label for="orbitPassControl">Вычислительный бюджет: <strong id="orbitPassValue">4 прохода</strong></label>
+                        <input type="range" id="orbitPassControl" min="1" max="4" step="1" value="4" oninput="orbitSetPasses(this.value)">
+                        <code>exit_at_step=<span id="orbitExitStep">3</span></code>
+                    </div>
+                </div>
+
+                <div class="orbit-canvas">
+                    <svg class="orbit-diagram" viewBox="0 0 1000 350" role="img" aria-labelledby="orbitDiagramTitle orbitDiagramDescription">
+                        <title id="orbitDiagramTitle">Поток данных в рекуррентной архитектуре OrbitLM</title>
+                        <desc id="orbitDiagramDescription">Эмбеддинг токена поступает в общий стек из 24 слоев трансформера. После каждого прохода выходной gate возвращает представление в тот же стек или направляет его в голову языковой модели.</desc>
+                        <defs>
+                            <marker id="orbitArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="orbit-arrow-head"></path>
+                            </marker>
+                        </defs>
+
+                        <path id="orbitInputPath" class="orbit-flow-path" d="M210 165 H300" marker-end="url(#orbitArrow)"></path>
+                        <path id="orbitSharedGatePath" class="orbit-flow-path" d="M560 165 H660" marker-end="url(#orbitArrow)"></path>
+                        <path id="orbitOutputPath" class="orbit-flow-path" d="M840 165 H865" marker-end="url(#orbitArrow)"></path>
+                        <path id="orbitLoopPath" class="orbit-flow-path orbit-loop-path" d="M750 225 C750 318 430 330 430 250" marker-end="url(#orbitArrow)"></path>
+                        <text x="590" y="326" class="orbit-loop-caption">те же веса, уточненное представление</text>
+
+                        <g id="orbitInputNode" class="orbit-svg-node">
+                            <rect x="40" y="115" width="170" height="100" rx="16"></rect>
+                            <text x="125" y="145" class="orbit-svg-kicker">ВХОД</text>
+                            <text x="125" y="174" class="orbit-svg-title">17 &times; 23 =</text>
+                            <text x="125" y="197" class="orbit-svg-subtitle">эмбеддинг h&#8304;</text>
+                        </g>
+
+                        <g id="orbitSharedNode" class="orbit-svg-node orbit-shared-node">
+                            <rect x="300" y="75" width="260" height="175" rx="18"></rect>
+                            <rect x="326" y="118" width="208" height="42" rx="8" class="orbit-layer-strip"></rect>
+                            <rect x="326" y="166" width="208" height="42" rx="8" class="orbit-layer-strip"></rect>
+                            <text x="430" y="103" class="orbit-svg-title">24 общих слоя</text>
+                            <text x="430" y="144" class="orbit-svg-subtitle">Attention + SwiGLU MLP</text>
+                            <text id="orbitSharedPass" x="430" y="192" class="orbit-svg-pass">Проход 0 / 4</text>
+                            <text x="430" y="229" class="orbit-svg-kicker">ОДНИ W SHARED НА КАЖДОМ ПРОХОДЕ</text>
+                        </g>
+
+                        <g id="orbitGateNode" class="orbit-svg-node orbit-gate-node">
+                            <rect x="660" y="110" width="180" height="115" rx="16"></rect>
+                            <text x="750" y="140" class="orbit-svg-kicker">ВЫХОДНОЙ GATE</text>
+                            <text x="750" y="169" class="orbit-svg-title">можно остановиться?</text>
+                            <text id="orbitGateDecision" x="750" y="199" class="orbit-svg-subtitle">ожидание прохода</text>
+                        </g>
+
+                        <g id="orbitOutputNode" class="orbit-svg-node orbit-output-node">
+                            <rect x="865" y="115" width="110" height="100" rx="16"></rect>
+                            <text x="920" y="145" class="orbit-svg-kicker">LM HEAD</text>
+                            <text x="920" y="174" class="orbit-svg-title">391</text>
+                            <text x="920" y="197" class="orbit-svg-subtitle">следующий токен</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="orbit-pass-track" aria-label="Прогресс рекуррентных проходов">
+                    <span data-orbit-pass="1">Проход 1</span>
+                    <span data-orbit-pass="2">Проход 2</span>
+                    <span data-orbit-pass="3">Проход 3</span>
+                    <span data-orbit-pass="4">Проход 4</span>
+                </div>
+                <div class="orbit-step-narration" aria-live="polite">
+                    <strong id="orbitStepTitle">Эмбеддинг токена</strong>
+                    <p id="orbitStepDescription">Промпт разбивается на токены и преобразуется в векторы. Нажмите «Запуск» или «Следующий шаг», чтобы проследить путь представления.</p>
+                </div>
+            </div>
+
+            <div class="orbit-explain-grid">
+                <article class="orbit-explain-card">
+                    <h3>Что делает выходной gate?</h3>
+                    <p>После каждого прохода небольшой обучаемый gate оценивает, готово ли представление токена к выводу. При генерации можно задать фиксированный <code>exit_at_step</code> или порог вероятности выхода. Меньше проходов — быстрее, но потенциально слабее.</p>
+                </article>
+                <article class="orbit-explain-card">
+                    <h3>Каков компромисс?</h3>
+                    <p>Повторное использование весов увеличивает эффективную глубину без четырех отдельных стеков слоев. Но вычисления остаются: OrbitLM применяет около 5,24 млрд параметров на токен и хранит отдельные K/V-записи для каждого прохода — 96 слоевых записей на токен.</p>
+                </article>
+                <article class="orbit-explain-card orbit-agent-distinction">
+                    <h3>Циклическая LLM &ne; агентный цикл</h3>
+                    <p><strong>Внутренний цикл:</strong> повторные нейросетевые вычисления при генерации токена. <strong>Внешний агентный цикл:</strong> модель &rarr; вызов инструмента &rarr; наблюдение &rarr; модель. OrbitLM может работать внутри TAO, но не заменяет его.</p>
+                </article>
+            </div>
+
+            <div class="orbit-resource-links">
+                <a href="https://huggingface.co/ai-forever/OrbitLM-1.8B-Thinking" target="_blank" rel="noopener" class="btn btn-secondary">Карточка модели OrbitLM &nearr;</a>
+                <a href="https://colab.research.google.com/github/D2718281828nis/LLM_AI_agents/blob/main/lesson-2A_OrbitLM_Colab_Agent.ipynb" target="_blank" rel="noopener" class="btn btn-primary">Запустить урок 2A в Colab &rarr;</a>
+                <a href="https://poloclub.github.io/transformer-explainer/" target="_blank" rel="noopener" class="orbit-text-link">Изучить Transformer Explainer, вдохновивший этот разбор &nearr;</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="concepts" class="concepts-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#128200;</span>
+                Объяснение ключевых концепций
+            </h2>
+            <p class="section-description">
+                Разберитесь в базовых компонентах современных систем ИИ-агентов.
+            </p>
+
+            <div class="concepts-grid">
+                <div class="concept-card" id="concept-mcp">
+                    <div class="concept-header">
+                        <h3>Model Context Protocol (MCP)</h3>
+                        <span class="concept-icon">&#9881;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Стандартизированные описания инструментов и ресурсов, позволяющие LLM безопасно вызывать внешние возможности. MCP предоставляет единый интерфейс для обнаружения и выполнения инструментов, а также обработки результатов.</p>
+                        <div class="concept-visual mcp-visual" id="mcpVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateMCP()">Показать процесс MCP &rarr;</button>
+                    </div>
+                </div>
+
+                <div class="concept-card" id="concept-hyde">
+                    <div class="concept-header">
+                        <h3>HyDE (эмбеддинги гипотетических документов)</h3>
+                        <span class="concept-icon">&#127996;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Сгенерируйте гипотетический ответ, чтобы сформировать более качественный поисковый запрос. Вместо прямого поиска по запросу пользователя HyDE создает синтетический документ, похожий на идеальный ответ, а затем использует его эмбеддинги для поиска.</p>
+                        <div class="concept-visual hyde-visual" id="hydeVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateHyDE()">Показать процесс HyDE &rarr;</button>
+                    </div>
+                </div>
+
+                <div class="concept-card" id="concept-tao">
+                    <div class="concept-header">
+                        <h3>TAO: мысль — действие — наблюдение</h3>
+                        <span class="concept-icon">&#10024;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Цикл, похожий на ReAct, в котором агент чередует рассуждение, выполнение действий и получение обратной связи. Это позволяет автономно решать задачи посредством итеративного исследования.</p>
+                        <div class="concept-visual tao-visual" id="taoVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateTAO()">Показать цикл TAO &rarr;</button>
+                    </div>
+                </div>
+
+                <div class="concept-card" id="concept-rag">
+                    <div class="concept-header">
+                        <h3>Генерация с дополнением поиском (RAG)</h3>
+                        <span class="concept-icon">&#128196;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Улучшайте ответы LLM, извлекая релевантные документы из базы знаний. RAG объединяет возможности больших языковых моделей с внешними актуальными источниками информации.</p>
+                        <div class="concept-visual rag-visual" id="ragVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateRAG()">Показать конвейер RAG &rarr;</button>
+                    </div>
+                </div>
+
+                <div class="concept-card" id="concept-dspy">
+                    <div class="concept-header">
+                        <h3>DSPy (декларативный самоулучшающийся Python)</h3>
+                        <span class="concept-icon">&#128736;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Фреймворк для программирования с фундаментальными моделями. DSPy позволяет определять конвейеры, в которых LLM могут программно генерировать и оптимизировать собственный код для решения сложных задач.</p>
+                        <div class="concept-visual dspy-visual" id="dspyVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateDSPy()">Показать процесс DSPy &rarr;</button>
+                    </div>
+                </div>
+
+                <div class="concept-card" id="concept-multiagent">
+                    <div class="concept-header">
+                        <h3>Мультиагентные системы</h3>
+                        <span class="concept-icon">&#128100;</span>
+                    </div>
+                    <div class="concept-body">
+                        <p>Координируйте несколько специализированных агентов для решения сложных задач. Среди шаблонов — «агент-критик» для контроля качества, «агент-координатор» для распределения задач и ансамблевые подходы.</p>
+                        <div class="concept-visual multiagent-visual" id="multiagentVisual"></div>
+                        <button class="btn btn-secondary btn-interactive" onclick="animateMultiAgent()">Показать взаимодействие агентов &rarr;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demos" class="demos-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#127915;</span>
+                Интерактивные демо и симуляторы
+            </h2>
+            <p class="section-description">
+                Попробуйте упрощенные симуляции ключевых концепций. Эти браузерные демо показывают, как устроены системы.
+            </p>
+
+            <div class="demos-grid">
+                <div class="demo-card" id="demo-mcp">
+                    <div class="demo-header">
+                        <h3>Симулятор вызова инструмента MCP</h3>
+                        <span class="demo-icon">&#9881;</span>
+                    </div>
+                    <div class="demo-body">
+                        <p>Смоделируйте, как LLM обнаруживает и вызывает инструменты с помощью Model Context Protocol.</p>
+                        <div class="demo-interface">
+                            <div class="demo-input">
+                                <label for="mcpQuery">Ваш запрос:</label>
+                                <input type="text" id="mcpQuery" placeholder="Например: какая погода в Париже?">
+                            </div>
+                            <div class="demo-tools">
+                                <label>Доступные инструменты:</label>
+                                <div class="tool-list" id="mcpTools">
+                                    <span class="tool-chip">weather_api</span>
+                                    <span class="tool-chip">search_web</span>
+                                    <span class="tool-chip">calculate</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="runMCPDemo()">Смоделировать выбор инструмента</button>
+                            <div class="demo-output" id="mcpOutput">
+                                <p class="output-placeholder">Здесь появится симуляция вызова инструмента...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card" id="demo-hyde">
+                    <div class="demo-header">
+                        <h3>Генерация запроса HyDE</h3>
+                        <span class="demo-icon">&#127996;</span>
+                    </div>
+                    <div class="demo-body">
+                        <p>Посмотрите, как HyDE генерирует гипотетические документы для улучшения поиска.</p>
+                        <div class="demo-interface">
+                            <div class="demo-input">
+                                <label for="hydeQuery">Запрос пользователя:</label>
+                                <input type="text" id="hydeQuery" placeholder="Например: лечение диабета 2 типа">
+                            </div>
+                            <button class="btn btn-primary" onclick="runHyDEDemo()">Сгенерировать документ HyDE</button>
+                            <div class="demo-output" id="hydeOutput">
+                                <p class="output-placeholder">Здесь появится гипотетический документ...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card" id="demo-tao">
+                    <div class="demo-header">
+                        <h3>Симулятор агентного цикла TAO</h3>
+                        <span class="demo-icon">&#10024;</span>
+                    </div>
+                    <div class="demo-body">
+                        <p>Наблюдайте, как агент проходит циклы «мысль — действие — наблюдение» для решения задачи.</p>
+                        <div class="demo-interface">
+                            <div class="demo-input">
+                                <label for="taoGoal">Цель агента:</label>
+                                <input type="text" id="taoGoal" placeholder="Например: назови столицу Франции">
+                            </div>
+                            <button class="btn btn-primary" onclick="runTAODemo()">Запустить цикл TAO</button>
+                            <div class="demo-output tao-loop" id="taoOutput">
+                                <p class="output-placeholder">Здесь появятся итерации TAO...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="roadmap" class="roadmap-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-icon">&#128640;</span>
+                Маршрут и план обучения
+            </h2>
+            <p class="section-description">
+                Следуйте этому маршруту, чтобы освоить ИИ-агентов — от основ до продвинутых приложений.
+            </p>
+
+            <div class="roadmap-container">
+                <div class="roadmap-level">
+                    <div class="level-header"><span class="level-number">1</span><h3>Основы</h3></div>
+                    <div class="level-content">
+                        <p>Изучите основы инференса LLM и работы с API.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Урок 1: базовый инференс LLM</li>
+                            <li><span class="check"></span> Урок 2: инференс Llama</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-arrow">&rarr;</div>
+                <div class="roadmap-level">
+                    <div class="level-header"><span class="level-number">2</span><h3>Агенты и инструменты</h3></div>
+                    <div class="level-content">
+                        <p>Создавайте простых агентов и подключайте инструменты.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Урок 3: простой агент на LangChain</li>
+                            <li><span class="check"></span> Урок 3A: эмуляция MCP</li>
+                            <li><span class="check"></span> Урок 4: инструменты MCP</li>
+                            <li><span class="check"></span> Урок 5: память и ограничения</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-arrow">&rarr;</div>
+                <div class="roadmap-level">
+                    <div class="level-header"><span class="level-number">3</span><h3>Продвинутые шаблоны</h3></div>
+                    <div class="level-content">
+                        <p>Изучите мультиагентные системы и оценку ответов.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Урок 6: мультиагентные системы</li>
+                            <li><span class="check"></span> Урок 7: оценка ответов агента</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-arrow">&rarr;</div>
+                <div class="roadmap-level">
+                    <div class="level-header"><span class="level-number">4</span><h3>Поиск и фреймворки</h3></div>
+                    <div class="level-content">
+                        <p>Освойте методы поиска и программные фреймворки.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Урок 8: методы RAG</li>
+                            <li><span class="check"></span> Урок 9: компоненты DSPy</li>
+                            <li><span class="check"></span> Урок 10: методы TAO</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-arrow">&rarr;</div>
+                <div class="roadmap-level highlight">
+                    <div class="level-header"><span class="level-number">5</span><h3>Практические приложения</h3></div>
+                    <div class="level-content">
+                        <p>Примените знания в медицинской и клинической областях.</p>
+                        <ul class="level-lessons">
+                            <li><span class="check"></span> Урок 11: заключение по медицинским утверждениям</li>
+                            <li><span class="check"></span> Урок 12: проверка фактов с помощью ИИ</li>
+                            <li><span class="check"></span> Урок 13: HyDE для клинических рекомендаций</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>LLM AI Agents</h4>
+                    <p>Учебное демо по созданию ИИ-агентов на основе LLM.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Быстрые ссылки</h4>
+                    <ul class="footer-links">
+                        <li><a href="#lessons">Уроки</a></li>
+                        <li><a href="#concepts">Концепции</a></li>
+                        <li><a href="#demos">Демо</a></li>
+                        <li><a href="#roadmap">Маршрут</a></li>
+                        <li><a href="../explainer/ru/">Интерактивный учебник</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Репозиторий</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/D2718281828nis/LLM_AI_agents" target="_blank">Репозиторий GitHub</a></li>
+                        <li><a href="https://github.com/D2718281828nis/LLM_AI_agents#readme" target="_blank">README</a></li>
+                        <li><a href="https://github.com/D2718281828nis/LLM_AI_agents/blob/main/LICENSE" target="_blank">Лицензия MIT</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright &copy; 2026 TAUforPython. Все права защищены.</p>
+                <p class="footer-note">Это учебный демо-сайт. Все симуляции являются упрощенными представлениями.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="backToTop" class="back-to-top" onclick="scrollToTop()" aria-label="Наверх">&uarr;</button>
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -115,6 +115,116 @@ const lessonDetails = {
     }
 };
 
+const isRussian = document.documentElement.lang.toLowerCase().startsWith('ru');
+const lessonDetailsRu = {
+    '1': {
+        title: 'Базовый инференс LLM',
+        description: 'Изучите основы инференса больших языковых моделей, включая локальный запуск и работу через API.',
+        technologies: ['Mistral', 'GPU/CPU', 'Интеграция API'],
+        outcomes: ['Понимать основы LLM', 'Запускать локальный инференс', 'Использовать облачные API']
+    },
+    '2': {
+        title: 'Инференс Llama',
+        description: 'Познакомьтесь с моделями Llama и научитесь работать с их различными вариантами.',
+        technologies: ['Llama', 'Hugging Face', 'Transformers'],
+        outcomes: ['Загружать модели Llama', 'Сравнивать варианты моделей', 'Понимать компромиссы']
+    },
+    '3': {
+        title: 'Простой агент на LangChain',
+        description: 'Создайте своего первого ИИ-агента с помощью фреймворка LangChain.',
+        technologies: ['LangChain', 'Агенты', 'Инструменты'],
+        outcomes: ['Создавать простых агентов', 'Подключать инструменты', 'Обрабатывать диалоги']
+    },
+    '3a': {
+        title: 'Эмуляция MCP',
+        description: 'Смоделируйте Model Context Protocol перед переходом к реальной реализации.',
+        technologies: ['Концепции MCP', 'Обертывание инструментов', 'Вызов функций'],
+        outcomes: ['Понимать принципы MCP', 'Эмулировать поведение MCP', 'Подготовиться к уроку 4']
+    },
+    '4': {
+        title: 'Инструменты MCP',
+        description: 'Реализуйте настоящие инструменты MCP с корректным обертыванием и вызовом функций.',
+        technologies: ['MCP', 'OpenAI', 'Обнаружение инструментов'],
+        outcomes: ['Использовать сервер MCP', 'Правильно обертывать инструменты', 'Обрабатывать результаты']
+    },
+    '5': {
+        title: 'Память и ограничения',
+        description: 'Добавьте агентам память и реализуйте защитные ограничения.',
+        technologies: ['Память диалога', 'Безопасность контента', 'Валидация'],
+        outcomes: ['Сохранять контекст диалога', 'Реализовывать ограничения', 'Обрабатывать небезопасный контент']
+    },
+    '6': {
+        title: 'Мультиагентные системы',
+        description: 'Координируйте нескольких агентов с помощью шаблонов критика и координатора.',
+        technologies: ['Мультиагентность', 'Шаблон критика', 'Координатор'],
+        outcomes: ['Проектировать мультиагентные системы', 'Создавать агентов-критиков', 'Координировать работу агентов']
+    },
+    '7': {
+        title: 'Оценка ответов агента',
+        description: 'Автоматически оценивайте ответы агентов с помощью метрик скоринга.',
+        technologies: ['Оценка', 'Скоринг', 'Метрики'],
+        outcomes: ['Определять критерии оценки', 'Реализовывать скоринг', 'Сравнивать эффективность агентов']
+    },
+    '8': {
+        title: 'Методы RAG',
+        description: 'Изучите различные методы генерации с дополнением поиском.',
+        technologies: ['RAG', 'Векторные БД', 'Преобразование запросов'],
+        outcomes: ['Реализовывать базовый RAG', 'Применять продвинутые методы RAG', 'Оптимизировать запросы']
+    },
+    '9': {
+        title: 'Компоненты DSPy',
+        description: 'Используйте DSPy для создания программных конвейеров языковых моделей.',
+        technologies: ['DSPy', 'Синтез программ', 'Оптимизация'],
+        outcomes: ['Создавать конвейеры DSPy', 'Автоматически оптимизировать', 'Выполнять программные конвейеры']
+    },
+    '10': {
+        title: 'Методы TAO',
+        description: 'Реализуйте циклы «мысль — действие — наблюдение» для автономного решения задач.',
+        technologies: ['TAO', 'ReAct', 'Итеративное рассуждение'],
+        outcomes: ['Проектировать циклы TAO', 'Реализовывать циклы рассуждения', 'Обрабатывать вызовы инструментов']
+    },
+    '11': {
+        title: 'Заключение по медицинским утверждениям',
+        description: 'Создайте граф агентов для анализа и проверки медицинских утверждений.',
+        technologies: ['Граф агентов', 'Медицина', 'Анализ утверждений'],
+        outcomes: ['Проектировать рабочие процессы агентов', 'Анализировать медицинские утверждения', 'Формировать заключения']
+    },
+    '12': {
+        title: 'Проверка фактов с помощью ИИ',
+        description: 'Реализуйте проверку клинических требований с помощью ИИ.',
+        technologies: ['Проверка фактов', 'Клиническая область', 'Верификация'],
+        outcomes: ['Проверять клиническую информацию', 'Создавать конвейер проверки фактов', 'Обрабатывать медицинские данные']
+    },
+    '13': {
+        title: 'HyDE для клинических рекомендаций',
+        description: 'Используйте эмбеддинги гипотетических документов с русскоязычными клиническими рекомендациями.',
+        technologies: ['HyDE', 'Клинические рекомендации', 'Мультиязычность'],
+        outcomes: ['Реализовывать HyDE', 'Находить клинические рекомендации', 'Обрабатывать русский текст']
+    }
+};
+
+const ui = {
+    colourTheme: isRussian ? 'Цветовая тема' : 'Colour theme',
+    light: isRussian ? '☀️ Светлая' : '☀️ Light',
+    dark: isRussian ? '☾ Тёмная' : '☾ Dark',
+    close: isRussian ? 'Закрыть' : 'Close',
+    closeLabel: isRussian ? 'Закрыть окно' : 'Close dialog',
+    technologies: isRussian ? 'Технологии' : 'Technologies',
+    outcomes: isRussian ? 'Результаты обучения' : 'Learning Outcomes',
+    notebook: isRussian ? 'Ноутбук' : 'Notebook',
+    openColab: isRussian ? 'Открыть в Colab' : 'Open in Colab',
+    colabHint: isRussian ? 'Открыть в Colab:' : 'Open in Colab:',
+    openColabArrow: isRussian ? 'Открыть в Colab →' : 'Open in Colab →',
+    categories: isRussian ? {
+        foundations: 'основы', agents: 'агенты', tools: 'инструменты', evaluation: 'оценка',
+        retrieval: 'поиск', frameworks: 'фреймворки', patterns: 'шаблоны', applications: 'приложения'
+    } : {}
+};
+const tr = (english, russian) => isRussian ? russian : english;
+const passLabel = count => isRussian
+    ? `${count} ${count === 1 ? 'проход' : 'прохода'}`
+    : `${count} ${count === 1 ? 'pass' : 'passes'}`;
+
 // ============================================
 // Initialization
 // ============================================
@@ -325,9 +435,9 @@ function initThemeToggle() {
     const group = document.createElement('div');
     group.className = 'theme-switch';
     group.setAttribute('role', 'group');
-    group.setAttribute('aria-label', 'Colour theme');
-    group.innerHTML = '<button type="button" data-theme-set="light">&#9728;&#65038; Light</button>' +
-                      '<button type="button" data-theme-set="dark">&#9790; Dark</button>';
+    group.setAttribute('aria-label', ui.colourTheme);
+    group.innerHTML = `<button type="button" data-theme-set="light">${ui.light}</button>` +
+                      `<button type="button" data-theme-set="dark">${ui.dark}</button>`;
     actions.appendChild(group);
     group.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeSet)));
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
@@ -363,8 +473,8 @@ function initModal() {
     modal.id = 'lessonModal';
     modal.className = 'modal';
     modal.innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
+        <div class="modal-content" role="dialog" aria-modal="true" aria-label="${ui.notebook}">
+            <button class="modal-close" onclick="closeModal()" aria-label="${ui.closeLabel}">&times;</button>
             <div id="modalBody"></div>
         </div>
     `;
@@ -523,7 +633,7 @@ function initLessonCards() {
             
             const lesson = card.dataset.lesson;
             const category = card.dataset.category;
-            const details = lessonDetails[lesson];
+            const details = (isRussian ? lessonDetailsRu : lessonDetails)[lesson];
             
             if (details) {
                 showLessonModal(lesson, category, details);
@@ -552,36 +662,36 @@ function initLessonCards() {
 
 function showLessonModal(lesson, category, details) {
     const modalContent = `
-        <h2>${lesson}: ${details.title}</h2>
+        <h2>${tr('Lesson', 'Урок')} ${lesson}: ${details.title}</h2>
         <div class="lesson-tags" style="margin-bottom: 1rem;">
-            <span class="tag tag-${category}">${category}</span>
+            <span class="tag tag-${category}">${ui.categories[category] || category}</span>
         </div>
         <p style="margin-bottom: 1.5rem;">${details.description}</p>
         
         <div class="modal-section">
-            <h3>Technologies</h3>
+            <h3>${ui.technologies}</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
                 ${details.technologies.map(tech => `<span class="tag tag-agents">${tech}</span>`).join('')}
             </div>
         </div>
         
         <div class="modal-section">
-            <h3>Learning Outcomes</h3>
+            <h3>${ui.outcomes}</h3>
             <ul>
                 ${details.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
             </ul>
         </div>
         
         <div class="modal-section">
-            <h3>Notebook</h3>
-            <p>Open in Colab: <code style="background: var(--bg-secondary); padding: 0.2rem 0.4rem; border-radius: 0.25rem;">lesson-${lesson}_*.ipynb</code></p>
+            <h3>${ui.notebook}</h3>
+            <p>${ui.colabHint} <code style="background: var(--bg-secondary); padding: 0.2rem 0.4rem; border-radius: 0.25rem;">lesson-${lesson}_*.ipynb</code></p>
         </div>
         
         <div class="modal-actions">
-            <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+            <button class="btn btn-secondary" onclick="closeModal()">${ui.close}</button>
             <a href="https://colab.research.google.com/github/D2718281828nis/LLM_AI_agents/blob/main/lesson-${lesson}_*.ipynb" 
                class="btn btn-primary" target="_blank">
-                Open in Colab &rarr;
+                ${ui.openColabArrow}
             </a>
         </div>
     `;
@@ -650,7 +760,7 @@ function animateMCP() {
                 animation: fadeIn 0.5s ease-out;
             ">
                 <div style="color: #7c3aed; font-weight: bold;">LLM</div>
-                <div style="color: white; font-size: 0.65rem;">Agent</div>
+                <div style="color: white; font-size: 0.65rem;">${tr('Agent', 'Агент')}</div>
             </div>
             <div style="color: #94a3b8;">&rarr;</div>
             <div style="
@@ -663,7 +773,7 @@ function animateMCP() {
                 animation: fadeIn 0.5s ease-out 0.1s both;
             ">
                 <div style="color: #06b6d4; font-weight: bold;">MCP</div>
-                <div style="color: white; font-size: 0.65rem;">Server</div>
+                <div style="color: white; font-size: 0.65rem;">${tr('Server', 'Сервер')}</div>
             </div>
             <div style="color: #94a3b8;">&rarr;</div>
             <div style="
@@ -675,8 +785,8 @@ function animateMCP() {
                 min-width: 70px;
                 animation: fadeIn 0.5s ease-out 0.2s both;
             ">
-                <div style="color: #10b981; font-weight: bold;">Tool</div>
-                <div style="color: white; font-size: 0.65rem;">Function</div>
+                <div style="color: #10b981; font-weight: bold;">${tr('Tool', 'Инструмент')}</div>
+                <div style="color: white; font-size: 0.65rem;">${tr('Function', 'Функция')}</div>
             </div>
         </div>
         <div style="
@@ -686,7 +796,7 @@ function animateMCP() {
             text-align: center;
             animation: fadeIn 0.5s ease-out 0.3s both;
         ">
-            Standardized Tool Interface
+            ${tr('Standardized Tool Interface', 'Стандартизированный интерфейс инструментов')}
         </div>
     `;
     
@@ -718,8 +828,8 @@ function animateHyDE() {
                 align-items: center;
                 animation: fadeIn 0.5s ease-out;
             ">
-                <div style="color: #7c3aed; font-size: 0.7rem;">User Query</div>
-                <div style="color: white; font-size: 0.6rem; margin-top: 0.25rem;">"What causes diabetes?"</div>
+                <div style="color: #7c3aed; font-size: 0.7rem;">${tr('User Query', 'Запрос пользователя')}</div>
+                <div style="color: white; font-size: 0.6rem; margin-top: 0.25rem;">${tr('"What causes diabetes?"', '«Что вызывает диабет?»')}</div>
             </div>
             <div style="
                 background: rgba(6, 182, 212, 0.1);
@@ -732,7 +842,7 @@ function animateHyDE() {
                 animation: fadeIn 0.5s ease-out 0.2s both;
             ">
                 <div style="color: #06b6d4; font-size: 0.7rem;">HyDE</div>
-                <div style="color: white; font-size: 0.6rem; margin-top: 0.25rem;">Generated Doc</div>
+                <div style="color: white; font-size: 0.6rem; margin-top: 0.25rem;">${tr('Generated Doc', 'Созданный документ')}</div>
             </div>
             <div style="
                 grid-column: span 2;
@@ -745,8 +855,8 @@ function animateHyDE() {
                 align-items: center;
                 animation: fadeIn 0.5s ease-out 0.4s both;
             ">
-                <div style="color: #10b981; font-size: 0.7rem;">Vector DB</div>
-                <div style="color: white; font-size: 0.6rem; margin-top: 0.25rem;">Retrieve Similar</div>
+                <div style="color: #10b981; font-size: 0.7rem;">${tr('Vector DB', 'Векторная БД')}</div>
+                <div style="color: white; font-size: 0.6rem; margin-top: 0.25rem;">${tr('Retrieve Similar', 'Поиск похожих')}</div>
             </div>
         </div>
         <div style="
@@ -756,7 +866,7 @@ function animateHyDE() {
             text-align: center;
             animation: fadeIn 0.5s ease-out 0.5s both;
         ">
-            Query &rarr; Generate &rarr; Embed &rarr; Retrieve
+            ${tr('Query → Generate → Embed → Retrieve', 'Запрос → генерация → эмбеддинг → поиск')}
         </div>
     `;
     
@@ -800,9 +910,9 @@ function animateTAO() {
                     justify-content: center;
                     animation: pulse 2s infinite 0.5s;
                 ">
-                    <div style="color: #f97316; font-size: 0.65rem; font-weight: bold;">THINK</div>
-                    <div style="color: #f97316; font-size: 0.65rem; font-weight: bold;">ACT</div>
-                    <div style="color: #f97316; font-size: 0.65rem; font-weight: bold;">OBSERVE</div>
+                    <div style="color: #f97316; font-size: 0.65rem; font-weight: bold;">${tr('THINK', 'МЫСЛЬ')}</div>
+                    <div style="color: #f97316; font-size: 0.65rem; font-weight: bold;">${tr('ACT', 'ДЕЙСТВИЕ')}</div>
+                    <div style="color: #f97316; font-size: 0.65rem; font-weight: bold;">${tr('OBSERVE', 'НАБЛЮДЕНИЕ')}</div>
                 </div>
             </div>
             <div style="
@@ -814,7 +924,7 @@ function animateTAO() {
                 font-size: 0.8rem;
                 animation: fadeIn 0.5s ease-out 0.2s both;
             ">
-                Loop
+                ${tr('Loop', 'Цикл')}
             </div>
         </div>
         <div style="
@@ -824,7 +934,7 @@ function animateTAO() {
             text-align: center;
             animation: fadeIn 0.5s ease-out 0.3s both;
         ">
-            Iterative Problem Solving
+            ${tr('Iterative Problem Solving', 'Итеративное решение задач')}
         </div>
     `;
     
@@ -860,7 +970,7 @@ function animateRAG() {
                     padding: 0.3rem 0.5rem;
                     border-radius: 0.2rem;
                     color: #f97316;
-                ">Query</div>
+                ">${tr('Query', 'Запрос')}</div>
                 <div style="color: #94a3b8; margin-top: 0.25rem;">&darr;</div>
             </div>
             <div style="
@@ -875,7 +985,7 @@ function animateRAG() {
                     padding: 0.3rem 0.5rem;
                     border-radius: 0.2rem;
                     color: #06b6d4;
-                ">Retriever</div>
+                ">${tr('Retriever', 'Поисковик')}</div>
                 <div style="color: #94a3b8; margin-top: 0.25rem;">&darr;</div>
             </div>
             <div style="
@@ -890,7 +1000,7 @@ function animateRAG() {
                     padding: 0.3rem 0.5rem;
                     border-radius: 0.2rem;
                     color: #10b981;
-                ">Docs</div>
+                ">${tr('Docs', 'Документы')}</div>
                 <div style="color: #94a3b8; margin-top: 0.25rem;">&darr;</div>
             </div>
             <div style="
@@ -920,7 +1030,7 @@ function animateRAG() {
                     padding: 0.3rem 0.5rem;
                     border-radius: 0.2rem;
                     color: #ec4899;
-                ">Answer</div>
+                ">${tr('Answer', 'Ответ')}</div>
             </div>
         </div>
         <div style="
@@ -930,7 +1040,7 @@ function animateRAG() {
             text-align: center;
             animation: fadeIn 0.5s ease-out 0.5s both;
         ">
-            Query &rarr; Retrieve &rarr; Generate
+            ${tr('Query → Retrieve → Generate', 'Запрос → поиск → генерация')}
         </div>
     `;
     
@@ -962,8 +1072,8 @@ function animateDSPy() {
                 text-align: center;
                 animation: fadeIn 0.5s ease-out;
             ">
-                <div style="color: #a78bfa;">Program</div>
-                <div style="color: white; font-size: 0.6rem;">with LM</div>
+                <div style="color: #a78bfa;">${tr('Program', 'Программа')}</div>
+                <div style="color: white; font-size: 0.6rem;">${tr('with LM', 'с языковой моделью')}</div>
             </div>
             <div style="color: #94a3b8; margin: 0.25rem 0;">&darr;</div>
             <div style="
@@ -974,8 +1084,8 @@ function animateDSPy() {
                 text-align: center;
                 animation: fadeIn 0.5s ease-out 0.2s both;
             ">
-                <div style="color: #3b82f6;">Optimize</div>
-                <div style="color: white; font-size: 0.6rem;">Automatically</div>
+                <div style="color: #3b82f6;">${tr('Optimize', 'Оптимизация')}</div>
+                <div style="color: white; font-size: 0.6rem;">${tr('Automatically', 'Автоматически')}</div>
             </div>
             <div style="color: #94a3b8; margin: 0.25rem 0;">&darr;</div>
             <div style="
@@ -986,8 +1096,8 @@ function animateDSPy() {
                 text-align: center;
                 animation: fadeIn 0.5s ease-out 0.4s both;
             ">
-                <div style="color: #10b981;">Execute</div>
-                <div style="color: white; font-size: 0.6rem;">Pipeline</div>
+                <div style="color: #10b981;">${tr('Execute', 'Выполнение')}</div>
+                <div style="color: white; font-size: 0.6rem;">${tr('Pipeline', 'Конвейер')}</div>
             </div>
         </div>
         <div style="
@@ -997,7 +1107,7 @@ function animateDSPy() {
             text-align: center;
             animation: fadeIn 0.5s ease-out 0.5s both;
         ">
-            Code &rarr; Optimize &rarr; Run
+            ${tr('Code → Optimize → Run', 'Код → оптимизация → запуск')}
         </div>
     `;
     
@@ -1029,7 +1139,7 @@ function animateMultiAgent() {
                 justify-content: center;
                 animation: fadeIn 0.5s ease-out;
             ">
-                <div style="color: #7c3aed; font-size: 0.65rem;">Coordinator</div>
+                <div style="color: #7c3aed; font-size: 0.65rem;">${tr('Coordinator', 'Координатор')}</div>
             </div>
             <div style="
                 background: rgba(37, 99, 235, 0.2);
@@ -1041,7 +1151,7 @@ function animateMultiAgent() {
                 justify-content: center;
                 animation: fadeIn 0.5s ease-out 0.1s both;
             ">
-                <div style="color: #2563eb; font-size: 0.65rem;">Worker 1</div>
+                <div style="color: #2563eb; font-size: 0.65rem;">${tr('Worker 1', 'Исполнитель 1')}</div>
             </div>
             <div style="
                 background: rgba(34, 197, 94, 0.2);
@@ -1053,7 +1163,7 @@ function animateMultiAgent() {
                 justify-content: center;
                 animation: fadeIn 0.5s ease-out 0.2s both;
             ">
-                <div style="color: #10b981; font-size: 0.65rem;">Worker 2</div>
+                <div style="color: #10b981; font-size: 0.65rem;">${tr('Worker 2', 'Исполнитель 2')}</div>
             </div>
             <div style="
                 grid-column: span 3;
@@ -1066,7 +1176,7 @@ function animateMultiAgent() {
                 justify-content: center;
                 animation: fadeIn 0.5s ease-out 0.3s both;
             ">
-                <div style="color: #f97316; font-size: 0.65rem;">Critic</div>
+                <div style="color: #f97316; font-size: 0.65rem;">${tr('Critic', 'Критик')}</div>
             </div>
         </div>
         <div style="
@@ -1076,7 +1186,7 @@ function animateMultiAgent() {
             text-align: center;
             animation: fadeIn 0.5s ease-out 0.4s both;
         ">
-            Distribute &rarr; Execute &rarr; Validate
+            ${tr('Distribute → Execute → Validate', 'Распределение → выполнение → проверка')}
         </div>
     `;
     
@@ -1099,38 +1209,55 @@ function orbitSteps() {
     const steps = [{
         kind: 'input',
         pass: 0,
-        title: 'Token embedding',
-        description: 'The prompt is tokenized and mapped to vectors. Press Play or Next step to follow the representation.'
+        title: tr('Token embedding', 'Эмбеддинг токена'),
+        description: tr(
+            'The prompt is tokenized and mapped to vectors. Press Play or Next step to follow the representation.',
+            'Промпт разбивается на токены и преобразуется в векторы. Нажмите «Запуск» или «Следующий шаг», чтобы проследить путь представления.'
+        )
     }];
 
     for (let pass = 1; pass <= orbitExplorerState.passes; pass += 1) {
         steps.push({
             kind: 'shared',
             pass,
-            title: `Pass ${pass}: the same 24-layer stack`,
-            description: `The shared weights transform h${pass - 1} into h${pass}. No new layer stack is loaded: OrbitLM reuses the same W shared to refine the representation.`
+            title: tr(`Pass ${pass}: the same 24-layer stack`, `Проход ${pass}: тот же стек из 24 слоев`),
+            description: tr(
+                `The shared weights transform h${pass - 1} into h${pass}. No new layer stack is loaded: OrbitLM reuses the same W shared to refine the representation.`,
+                `Общие веса преобразуют h${pass - 1} в h${pass}. Новый стек слоев не загружается: OrbitLM повторно использует одни и те же W shared для уточнения представления.`
+            )
         });
         const isFinalPass = pass === orbitExplorerState.passes;
         steps.push({
             kind: isFinalPass ? 'exit' : 'loop',
             pass,
-            title: isFinalPass ? `Pass ${pass}: exit to the LM head` : `Pass ${pass}: loop back`,
+            title: isFinalPass
+                ? tr(`Pass ${pass}: exit to the LM head`, `Проход ${pass}: выход в голову LM`)
+                : tr(`Pass ${pass}: loop back`, `Проход ${pass}: возврат в цикл`),
             description: isFinalPass
-                ? 'The selected compute budget is reached. This representation is projected to vocabulary logits and the next token is sampled.'
-                : 'Another pass is requested. In adaptive generation the exit gate can stop earlier; in this fixed-budget demo we continue until the selected exit_at_step.'
+                ? tr(
+                    'The selected compute budget is reached. This representation is projected to vocabulary logits and the next token is sampled.',
+                    'Выбранный вычислительный бюджет исчерпан. Представление проецируется в логиты словаря, после чего выбирается следующий токен.'
+                )
+                : tr(
+                    'Another pass is requested. In adaptive generation the exit gate can stop earlier; in this fixed-budget demo we continue until the selected exit_at_step.',
+                    'Запрошен еще один проход. При адаптивной генерации выходной gate может остановиться раньше; в этом демо с фиксированным бюджетом продолжаем до выбранного exit_at_step.'
+                )
         });
     }
 
     steps.push({
         kind: 'output',
         pass: orbitExplorerState.passes,
-        title: 'Next-token prediction',
-        description: 'The LM head produces a probability distribution and sampling selects the next token. The autoregressive process then repeats for the following token.'
+        title: tr('Next-token prediction', 'Предсказание следующего токена'),
+        description: tr(
+            'The LM head produces a probability distribution and sampling selects the next token. The autoregressive process then repeats for the following token.',
+            'Голова LM формирует распределение вероятностей, из которого выбирается следующий токен. Затем авторегрессионный процесс повторяется для следующего токена.'
+        )
     });
     return steps;
 }
 
-function orbitStopPlayback(label = 'Play') {
+function orbitStopPlayback(label = tr('Play', 'Запуск')) {
     if (orbitExplorerState.timer) {
         clearInterval(orbitExplorerState.timer);
         orbitExplorerState.timer = null;
@@ -1187,8 +1314,14 @@ function orbitRender() {
         setState('orbitOutputPath', 'is-active');
     }
 
-    document.getElementById('orbitSharedPass').textContent = `Pass ${current.pass} / ${orbitExplorerState.passes}`;
-    document.getElementById('orbitGateDecision').textContent = {
+    document.getElementById('orbitSharedPass').textContent = `${tr('Pass', 'Проход')} ${current.pass} / ${orbitExplorerState.passes}`;
+    document.getElementById('orbitGateDecision').textContent = isRussian ? {
+        input: 'ожидание прохода',
+        shared: 'оценка готовности',
+        loop: 'продолжить → те же веса',
+        exit: 'стоп → вывод',
+        output: 'токен сгенерирован'
+    }[current.kind] : {
         input: 'waiting for pass',
         shared: 'scoring readiness',
         loop: 'continue → same weights',
@@ -1202,12 +1335,12 @@ function orbitRender() {
 function orbitNextStep() {
     const steps = orbitSteps();
     if (orbitExplorerState.step >= steps.length - 1) {
-        orbitStopPlayback('Play again');
+        orbitStopPlayback(tr('Play again', 'Запустить снова'));
         return;
     }
     orbitExplorerState.step += 1;
     orbitRender();
-    if (orbitExplorerState.step >= steps.length - 1) orbitStopPlayback('Play again');
+    if (orbitExplorerState.step >= steps.length - 1) orbitStopPlayback(tr('Play again', 'Запустить снова'));
 }
 
 function orbitPlay() {
@@ -1217,7 +1350,7 @@ function orbitPlay() {
     }
     if (orbitExplorerState.step >= orbitSteps().length - 1) orbitExplorerState.step = 0;
     orbitExplorerState.isPlaying = true;
-    document.getElementById('orbitPlayButton').textContent = 'Pause';
+    document.getElementById('orbitPlayButton').textContent = tr('Pause', 'Пауза');
     orbitNextStep();
     if (!orbitExplorerState.isPlaying) return;
     orbitExplorerState.timer = setInterval(orbitNextStep, 1300);
@@ -1225,7 +1358,7 @@ function orbitPlay() {
 
 function orbitSetPasses(value) {
     orbitExplorerState.passes = Number(value);
-    document.getElementById('orbitPassValue').textContent = `${value} ${Number(value) === 1 ? 'pass' : 'passes'}`;
+    document.getElementById('orbitPassValue').textContent = passLabel(Number(value));
     document.getElementById('orbitExitStep').textContent = String(Number(value) - 1);
     orbitReset();
 }
@@ -1246,85 +1379,84 @@ function escapeHTML(s) {
 }
 
 function runMCPDemo() {
-    const query = document.getElementById('mcpQuery').value || 'What\'s the weather in Paris?';
+    const query = document.getElementById('mcpQuery').value || tr('What\'s the weather in Paris?', 'Какая погода в Париже?');
     const output = document.getElementById('mcpOutput');
+    const labels = isRussian
+        ? ['Запрос', 'Анализ LLM', 'Выбранный инструмент', 'Вызов инструмента', 'Результат', 'Итоговый ответ']
+        : ['Query', 'LLM Analysis', 'Tool Selected', 'Tool Call', 'Result', 'Final Answer'];
     
     output.innerHTML = `
         <p class="demo-result">
-            <span class="highlight">Query:</span> "${escapeHTML(query)}"
+            <span class="highlight">${labels[0]}:</span> "${escapeHTML(query)}"
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
-            <span class="highlight">LLM Analysis:</span> User is asking for weather information
+            <span class="highlight">${labels[1]}:</span> ${tr('User is asking for weather information', 'Пользователь запрашивает информацию о погоде')}
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
-            <span class="highlight">Tool Selected:</span> weather_api
+            <span class="highlight">${labels[2]}:</span> weather_api
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
-            <span class="highlight">Tool Call:</span> weather_api(location="Paris")
+            <span class="highlight">${labels[3]}:</span> weather_api(location="Paris")
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
-            <span class="highlight">Result:</span> {"temperature": 22, "condition": "sunny", "location": "Paris"}
+            <span class="highlight">${labels[4]}:</span> {"temperature": 22, "condition": "sunny", "location": "Paris"}
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
-            <span class="highlight">Final Answer:</span> The weather in Paris is currently 22°C and sunny.
+            <span class="highlight">${labels[5]}:</span> ${tr('The weather in Paris is currently 22°C and sunny.', 'Сейчас в Париже 22°C и солнечно.')}
         </p>
     `;
 }
 
 function runHyDEDemo() {
-    const query = document.getElementById('hydeQuery').value || 'treatment for type 2 diabetes';
+    const query = document.getElementById('hydeQuery').value || tr('treatment for type 2 diabetes', 'лечение диабета 2 типа');
     const output = document.getElementById('hydeOutput');
+    const labels = isRussian
+        ? ['Запрос пользователя', 'Генерация HyDE', 'Эмбеддинг', 'Поиск']
+        : ['User Query', 'HyDE Generation', 'Embedding', 'Retrieval'];
+    const documentText = tr(
+        'Type 2 diabetes treatment includes lifestyle modifications such as diet changes, increased physical activity, and weight management. Medications like metformin, sulfonylureas, and insulin therapy may be prescribed. Regular blood glucose monitoring and HbA1c testing are essential for managing the condition effectively.',
+        'Лечение диабета 2 типа включает изменение образа жизни: коррекцию питания, увеличение физической активности и контроль веса. Могут назначаться метформин, производные сульфонилмочевины и инсулинотерапия. Для эффективного контроля заболевания необходимы регулярный мониторинг глюкозы крови и анализ HbA1c.'
+    );
     
     output.innerHTML = `
         <p class="demo-result">
-            <span class="highlight">User Query:</span> "${escapeHTML(query)}"
+            <span class="highlight">${labels[0]}:</span> "${escapeHTML(query)}"
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
-            <span class="highlight">HyDE Generation:</span> LLM creates a hypothetical comprehensive answer...
+            <span class="highlight">${labels[1]}:</span> ${tr('LLM creates a hypothetical comprehensive answer...', 'LLM создает развернутый гипотетический ответ...')}
         </p>
         <p class="demo-result" style="margin-top: 0.5rem; background: rgba(6, 182, 212, 0.1); padding: 0.5rem; border-radius: 0.25rem;">
-            <em>"Type 2 diabetes treatment includes lifestyle modifications such as diet changes, increased physical activity, and weight management. 
-            Medications like metformin, sulfonylureas, and insulin therapy may be prescribed. 
-            Regular blood glucose monitoring and HbA1c testing are essential for managing the condition effectively."</em>
+            <em>"${documentText}"</em>
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
-            <span class="highlight">Embedding:</span> Generated document &rarr; Vector embedding
+            <span class="highlight">${labels[2]}:</span> ${tr('Generated document → Vector embedding', 'Сгенерированный документ → векторный эмбеддинг')}
         </p>
         <p class="demo-result" style="margin-top: 0.5rem;">
-            <span class="highlight">Retrieval:</span> Found 3 relevant medical guidelines with high similarity scores
+            <span class="highlight">${labels[3]}:</span> ${tr('Found 3 relevant medical guidelines with high similarity scores', 'Найдены 3 релевантные медицинские рекомендации с высокой семантической близостью')}
         </p>
     `;
 }
 
 function runTAODemo() {
-    const goal = document.getElementById('taoGoal').value || 'Find the capital of France';
+    const goal = document.getElementById('taoGoal').value || tr('Find the capital of France', 'Назови столицу Франции');
     const output = document.getElementById('taoOutput');
     
     // Clear previous iterations
     output.innerHTML = '';
     
     // Simulate TAO loop with multiple iterations
-    const iterations = [
-        {
-            type: 'THINK',
-            content: 'The user wants to know the capital of France. I need to recall this information from my knowledge base.'
-        },
-        {
-            type: 'ACT',
-            content: 'Querying internal knowledge: "What is the capital of France?"'
-        },
-        {
-            type: 'OBSERVE',
-            content: 'Retrieved: "The capital of France is Paris." Confidence: 99.9%'
-        },
-        {
-            type: 'THINK',
-            content: 'The information is clear and confident. I should provide this as the final answer.'
-        },
-        {
-            type: 'ACT',
-            content: 'Preparing final response...'
-        }
+    const iterations = isRussian ? [
+        { type: 'МЫСЛЬ', content: 'Пользователь хочет узнать столицу Франции. Нужно найти эту информацию в базе знаний.' },
+        { type: 'ДЕЙСТВИЕ', content: 'Запрос к внутренним знаниям: «Какая столица Франции?»' },
+        { type: 'НАБЛЮДЕНИЕ', content: 'Получено: «Столица Франции — Париж». Уверенность: 99,9%' },
+        { type: 'МЫСЛЬ', content: 'Информация ясна и достоверна. Можно дать итоговый ответ.' },
+        { type: 'ДЕЙСТВИЕ', content: 'Подготовка итогового ответа...' }
+    ] : [
+        { type: 'THINK', content: 'The user wants to know the capital of France. I need to recall this information from my knowledge base.' },
+        { type: 'ACT', content: 'Querying internal knowledge: "What is the capital of France?"' },
+        { type: 'OBSERVE', content: 'Retrieved: "The capital of France is Paris." Confidence: 99.9%' },
+        { type: 'THINK', content: 'The information is clear and confident. I should provide this as the final answer.' },
+        { type: 'ACT', content: 'Preparing final response...' }
     ];
     
     iterations.forEach((iter, index) => {
@@ -1355,7 +1487,7 @@ function runTAODemo() {
             color: #10b981;
             font-weight: 600;
         `;
-        finalElement.innerHTML = `&#10003; Answer: The capital of France is Paris.`;
+        finalElement.innerHTML = `&#10003; ${tr('Answer: The capital of France is Paris.', 'Ответ: столица Франции — Париж.')}`;
         output.appendChild(finalElement);
         output.scrollTop = output.scrollHeight;
     }, iterations.length * 800);
